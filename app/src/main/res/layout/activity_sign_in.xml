@@ -9,8 +9,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="seniordesign.phoneafriend.SignIn">
 
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/signin_emailText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="93dp"
+        android:hint="@string/email_text"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordText"
+        android:layout_below="@+id/signin_emailText"
+        android:layout_alignLeft="@id/signin_emailText"
+        android:layout_alignStart="@id/signin_emailText"
+        android:layout_marginTop="44dp"
+        android:hint="@string/password_text"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
+        android:id="@+id/login_button"
+        android:layout_below="@id/passwordText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:textColor="@color/wl_blue"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/signup_msg"
+        android:id="@+id/textView"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
 </RelativeLayout>

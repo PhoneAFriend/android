@@ -7,8 +7,10 @@
     <string name="enter_email">Enter Email Address</string>
     <string name="password_text">Password</string>
     <string name="enter_pass">Enter Password</string>
+    <string name="confirm_pass">Confirm Password</string>
     <string name="login_button">Log In</string>
     <string name="signup_button">Sign Up</string>
+    <string name="signup_msg">New User? Clcik to sign up!</string>
 
 
 </resources>
