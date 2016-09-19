@@ -48,8 +48,19 @@
         android:textColor="@color/wl_blue"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/signup_msg"
-        android:id="@+id/textView"
-        android:layout_below="@+id/login_button"
+        android:id="@+id/signup_link"
+        android:layout_below="@id/login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
+        android:id="@+id/devbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>
