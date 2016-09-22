@@ -10,7 +10,7 @@
     <string name="confirm_pass">Confirm Password</string>
     <string name="login_button">Log In</string>
     <string name="signup_button">Sign Up</string>
-    <string name="signup_msg">New User? Clcik to sign up!</string>
+    <string name="signup_msg">New User? Click to sign up!</string>
 
 
 </resources>
