@@ -17,11 +17,37 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/maven/com.firebase/firebase-client-jvm/pom.properties'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.xml'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-core/pom.properties'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-annotations/pom.properties'
+        exclude 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec'
+        exclude 'META-INF/maven/com.firebase/firebase-client-android/pom.xml'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-databind/pom.properties'
+        exclude 'META-INF/maven/com.firebase/tubesock/pom.properties'
+        exclude 'META-INF/maven/com.firebase/firebase-client-android/pom.properties'
+        exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-core/pom.xml'
+        exclude 'META-INF/LICENSE-FIREBASE_android.txt'
+        exclude 'NOTICE_firebase_android'
+        exclude 'META-INF/maven/com.firebase/firebase-client-jvm/pom.xml'
+        exclude 'META-INF/maven/com.firebase/tubesock/pom.xml'
+        exclude 'META-INF/LICENSE-FIREBASE_jvm.txt'
+        exclude 'META-INF/maven/com.fasterxml.jackson.core/jackson-annotations/pom.xml'
+        exclude 'NOTICE_firebase_jvm'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.firebase:firebase-client-android:2.5.2+'
+
     
 }
