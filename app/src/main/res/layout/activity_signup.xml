@@ -51,7 +51,8 @@
         android:id="@+id/signup_button"
         android:layout_marginTop="46dp"
         android:layout_below="@+id/signup_passwordConfirm"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        />
 
 
 </RelativeLayout>
