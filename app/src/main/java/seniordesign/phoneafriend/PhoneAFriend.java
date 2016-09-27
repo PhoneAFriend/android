@@ -18,4 +18,8 @@ public class PhoneAFriend extends Application {
         Firebase.setAndroidContext(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
     }
+
+    public void onDestroy(){
+
+    }
 }

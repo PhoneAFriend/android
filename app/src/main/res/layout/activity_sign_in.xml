@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/passwordText"
+        android:id="@+id/signin_passwordText"
         android:layout_below="@+id/signin_emailText"
         android:layout_alignLeft="@id/signin_emailText"
         android:layout_alignStart="@id/signin_emailText"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="@string/login_button"
         android:id="@+id/login_button"
-        android:layout_below="@id/passwordText"
+        android:layout_below="@id/signin_passwordText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp" />
 
