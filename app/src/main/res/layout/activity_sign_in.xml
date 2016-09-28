@@ -57,7 +57,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"
+        android:text="Dev In"
         android:id="@+id/devbutton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

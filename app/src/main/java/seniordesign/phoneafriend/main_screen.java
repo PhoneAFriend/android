@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.TabHost;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import seniordesign.phoneafriend.main_screen_fragments.inbox;
 import seniordesign.phoneafriend.main_screen_fragments.main_selections;
 import seniordesign.phoneafriend.main_screen_fragments.settings;
 
-public class main_screen extends AppCompatActivity {
+public class main_screen extends AppCompatActivity implements ViewPager.OnPageChangeListener, TabHost.OnTabChangeListener {
 
     ViewPager viewPager;
     TabHost tabHost;
@@ -38,10 +39,9 @@ public class main_screen extends AppCompatActivity {
         tabHost = (TabHost) findViewById(R.id.main_tabHost);
         tabHost.setup();
 
-        String[] tabNames = {"Main","Contacts","Inbox","Settings"};
+        String[] tabNames = {"Main", "Contacts", "Inbox", "Settings"};
 
-        for( int i = 0; i < tabNames.length; i++)
-        {
+        for (int i = 0; i < tabNames.length; i++) {
             TabHost.TabSpec tabSpec;
             tabSpec = tabHost.newTabSpec(tabNames[i]);
             tabSpec.setIndicator(tabNames[i]);
@@ -49,13 +49,15 @@ public class main_screen extends AppCompatActivity {
             tabHost.addTab(tabSpec);
         }
 
+        tabHost.setOnTabChangedListener(this);
+
     }
 
-    public class FakeContent implements TabHost.TabContentFactory{
+    public class FakeContent implements TabHost.TabContentFactory {
 
         Context context;
-        public FakeContent(Context mycontext)
-        {
+
+        public FakeContent(Context mycontext) {
             context = mycontext;
         }
 
@@ -80,7 +82,37 @@ public class main_screen extends AppCompatActivity {
         listFragments.add(new settings());
 
         MainScreenPagerAdapter mainScreenPagerAdapter = new MainScreenPagerAdapter(
-                getSupportFragmentManager(),listFragments);
+                getSupportFragmentManager(), listFragments);
         viewPager.setAdapter(mainScreenPagerAdapter);
+        viewPager.addOnPageChangeListener(this);
     }
+
+
+    @Override
+    public void onTabChanged(String tabId) {
+        int selectedItem = tabHost.getCurrentTab();
+        viewPager.setCurrentItem(selectedItem);
+
+        HorizontalScrollView hScroll = (HorizontalScrollView) findViewById(R.id.tab_horz_scroller);
+        View tabView = tabHost.getCurrentTabView();
+        int scrollPos = tabView.getLeft() - (hScroll.getWidth() - tabView.getWidth()) / 2;
+        hScroll.smoothScrollTo(scrollPos, 0);
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int selectedItem) {
+        tabHost.setCurrentTab(selectedItem);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
 }
