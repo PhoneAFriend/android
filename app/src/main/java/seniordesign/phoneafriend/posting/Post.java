@@ -1,0 +1,77 @@
+package seniordesign.phoneafriend.posting;
+
+import java.text.CharacterIterator;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * Created by The Alex on 9/28/2016.
+ */
+public class Post {
+    /* Attributes */
+    private String postId;
+    private String questionTitle;
+    private String questionText;
+    private boolean answered;
+    private Date datePosted;
+    private String postedBy;
+    private String subject;
+    private String questionImageURL;
+
+
+    /* Constructors */
+    public Post(){}
+    public Post(String questionTitle, String questionText , String postedBy , String subject){
+        postId = generatePostId();
+        this.questionTitle = questionTitle;
+        this.questionText = questionText;
+        answered = false;
+        datePosted = Calendar.getInstance().getTime();
+        this.postedBy = postedBy;
+        this.subject = subject;
+        questionImageURL = "Fake URL";
+    }
+    public Post(String questionTitle, String questionText , String postedBy){
+        postId = generatePostId();
+        this.questionTitle = questionTitle;
+        this.questionText = questionText;
+        answered = false;
+        datePosted = Calendar.getInstance().getTime();
+        this.postedBy = postedBy;
+        subject = "Fake Math";
+        questionImageURL = "Fake URL";
+    }
+
+    private String generatePostId(){
+        Random rand = new Random();
+        int randInt = rand.nextInt((90-65)+1) + 65;
+        char tempChar = Character.toChars(randInt)[0];
+        int one,two,three;
+        String pid = Character.toString(tempChar);
+
+        for(int i = 1 ; i < 19 ; i++){
+            one = rand.nextInt((90 -65)+1)+65;
+            two = rand.nextInt((57-48)+1)+48;
+            three = rand.nextInt((122-97)+1) +97;
+            randInt = rand.nextInt(3);
+            switch(randInt){
+                case 0:
+                    tempChar = Character.toChars(one)[0];
+                    break;
+                case 1:
+                    tempChar = Character.toChars(two)[0];
+                    break;
+                case 2:
+                    tempChar = Character.toChars(three)[0];
+                    break;
+            }
+            pid += Character.toString(tempChar);
+        }
+
+        return pid;
+    };
+}
