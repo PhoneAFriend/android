@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.posting.NewPostActivity;
 
 
 public class SignIn extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class SignIn extends AppCompatActivity {
     private EditText passText;
     private Button button;
     private View.OnClickListener onClickListener;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         emailText = (EditText) findViewById(R.id.signin_emailText);
         passText = (EditText) findViewById(R.id.signin_passwordText);
+        intent = new Intent(this, NewPostActivity.class);
         button = (Button) findViewById(R.id.login_button);
         onClickListener = new View.OnClickListener() {
             @Override
@@ -83,6 +86,7 @@ public class SignIn extends AppCompatActivity {
                         Log.v("Sign in attempt : " , "Completed");
                         if(task.isSuccessful()){
                             Log.v("Sign in status:" , "Success");
+                            startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
                         }

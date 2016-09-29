@@ -44,7 +44,8 @@ public class NewPostActivity extends AppCompatActivity {
 
     private void submitPost(){
         if(!titleText.getText().toString().matches("") || !bodyText.getText().toString().matches("")){
-
+            Post post = new Post(titleText.getText().toString() , bodyText.getText().toString() , currentUser.getUid().toString());
+            db.child("posts").child(post.getPostId()).setValue(post.toMap());
         }
     }
 

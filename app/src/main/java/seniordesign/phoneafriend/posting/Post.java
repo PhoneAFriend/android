@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,6 +48,7 @@ public class Post {
         questionImageURL = "Fake URL";
     }
 
+    /* Methods */
     private String generatePostId(){
         Random rand = new Random();
         int randInt = rand.nextInt((90-65)+1) + 65;
@@ -71,7 +74,23 @@ public class Post {
             }
             pid += Character.toString(tempChar);
         }
-
-        return pid;
+        return "-"+pid;
     };
+    public String getPostId(){ return postId;}
+    public String getQuestionTitle(){return questionTitle;}
+    public String getQuestionText(){return questionText;}
+    public Map<String, Object> toMap(){
+        HashMap<String , Object> map = new HashMap<>();
+        map.put("answered" , answered);
+        map.put("datePosted" , datePosted);
+        map.put("postedBy" , "Uid : "+ postedBy);
+        map.put("questionImageURL" , questionImageURL);
+        map.put("questionText" , questionText);
+        map.put("questionTitle" , questionTitle);
+        map.put("subject" , subject);
+
+        return map;
+    };
+
+
 }
