@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 
 
@@ -35,9 +36,10 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
         emailText = (EditText) findViewById(R.id.signin_emailText);
         passText = (EditText) findViewById(R.id.signin_passwordText);
-        intent = new Intent(this, NewPostActivity.class);
+        intent = new Intent(this, main_screen.class);
         button = (Button) findViewById(R.id.login_button);
         onClickListener = new View.OnClickListener() {
             @Override
@@ -59,8 +61,8 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         };
-        CharSequence text = "Password Incorrect!";
-        toast = new Toast.makeText(this , text , Toast.LENGTH_SHORT);
+
+
     }
 
     protected void gotoSignUp(View view){
@@ -97,5 +99,8 @@ public class SignIn extends AppCompatActivity {
                         }
                     }
                 });
+
     }
+
+
 }

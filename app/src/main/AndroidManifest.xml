@@ -21,6 +21,7 @@
         <activity android:name=".authentication.SignUp" />
         <activity android:name=".posting.NewPostActivity" />
         <activity android:name=".posting.PostListActivity"></activity>
+        <activity android:name=".main_screen"></activity>
     </application>
 
 </manifest>
