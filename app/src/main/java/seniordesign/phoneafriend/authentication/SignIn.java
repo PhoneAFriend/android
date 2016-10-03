@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +29,7 @@ public class SignIn extends AppCompatActivity {
     private Button button;
     private View.OnClickListener onClickListener;
     private Intent intent;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         };
+        CharSequence text = "Password Incorrect!";
+        toast = new Toast.makeText(this , text , Toast.LENGTH_SHORT);
     }
 
     protected void gotoSignUp(View view){
@@ -89,6 +93,7 @@ public class SignIn extends AppCompatActivity {
                             startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
+                            passText.setText("");
                         }
                     }
                 });
