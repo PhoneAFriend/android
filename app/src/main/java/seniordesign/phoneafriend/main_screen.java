@@ -117,5 +117,5 @@ public class main_screen extends AppCompatActivity implements ViewPager.OnPageCh
     public void onPageScrollStateChanged(int state) {
 
     }
-    
+
 }

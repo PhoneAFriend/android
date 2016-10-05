@@ -12,6 +12,7 @@ import android.widget.Button;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
+import seniordesign.phoneafriend.posting.PostListActivity;
 
 public class main_selections extends Fragment {
     private Button postsButton;
@@ -24,7 +25,7 @@ public class main_selections extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.main_selections_layout, container, false);
-        postIntent = new Intent(getActivity(), NewPostActivity.class);
+        postIntent = new Intent(getActivity(), PostListActivity.class);
         postsButton = (Button) view.findViewById(R.id.main_screen_posts_button);
         postOnClickListener = new View.OnClickListener() {
             @Override

@@ -18,8 +18,8 @@ public class Post {
     private String postId;
     private String questionTitle;
     private String questionText;
-    private boolean answered;
-    private Date datePosted;
+    private String answered;
+    private String datePosted;
     private String postedBy;
     private String subject;
     private String questionImageURL;
@@ -31,8 +31,8 @@ public class Post {
         postId = generatePostId();
         this.questionTitle = questionTitle;
         this.questionText = questionText;
-        answered = false;
-        datePosted = Calendar.getInstance().getTime();
+        answered = "false";
+        datePosted = Calendar.getInstance().getTime().toString();
         this.postedBy = postedBy;
         this.subject = subject;
         questionImageURL = "Fake URL";
@@ -41,8 +41,8 @@ public class Post {
         postId = generatePostId();
         this.questionTitle = questionTitle;
         this.questionText = questionText;
-        answered = false;
-        datePosted = Calendar.getInstance().getTime();
+        answered = "false";
+        datePosted = Calendar.getInstance().getTime().toString();
         this.postedBy = postedBy;
         subject = "Fake Math";
         questionImageURL = "Fake URL";
@@ -91,6 +91,15 @@ public class Post {
 
         return map;
     };
+    public void initFromMap(HashMap<String , String> map){
+        questionText = map.get("questionText");
+        questionTitle = map.get("questionTitle");
+        questionImageURL = map.get("questionImageURL");
+        answered = map.get("answered");
+        datePosted = map.get("datePosted");
+        postedBy = map.get("postedBy");
+        subject = map.get("subject");
+    }
 
 
 }

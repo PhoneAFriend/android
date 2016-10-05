@@ -32,7 +32,11 @@ public class SignIn extends AppCompatActivity {
     private Intent intent;
     private Toast toast;
 
-    @Override
+    /* Delete Later */
+    private Button alexButton;
+    private View.OnClickListener alexClickListener;
+    /*              */
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
@@ -62,6 +66,16 @@ public class SignIn extends AppCompatActivity {
             }
         };
 
+        /* Delete Later */
+        alexButton = (Button) findViewById(R.id.signin_alexIn);
+        alexClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alexIn();
+            }
+        };
+        alexButton.setOnClickListener(alexClickListener);
+        /*              */
 
     }
 
@@ -101,6 +115,24 @@ public class SignIn extends AppCompatActivity {
                 });
 
     }
+    /* Delete Later */
+    private void alexIn(){
+        auth.signInWithEmailAndPassword("thealex123@gmail.com" , "ilovethisapp" )
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.v("Sign in attempt : " , "Completed");
+                        if(task.isSuccessful()){
+                            Log.v("Sign in status:" , "Success");
+                            startActivity(intent);
+                        }else{
+                            Log.v("Sign in status:", "Failure");
+                            passText.setText("");
+                        }
+                    }
+                });
+    }
+    /*              */
 
 
 }
