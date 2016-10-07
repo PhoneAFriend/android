@@ -79,6 +79,8 @@ public class Post {
     public String getPostId(){ return postId;}
     public String getQuestionTitle(){return questionTitle;}
     public String getQuestionText(){return questionText;}
+    public String getPostedBy(){return postedBy;}
+    public String getDatePosted(){return datePosted;}
     public Map<String, Object> toMap(){
         HashMap<String , Object> map = new HashMap<>();
         map.put("answered" , answered);
@@ -95,8 +97,8 @@ public class Post {
         questionText = map.get("questionText");
         questionTitle = map.get("questionTitle");
         questionImageURL = map.get("questionImageURL");
-        answered = map.get("answered");
-        datePosted = map.get("datePosted");
+        //answered = map.get("answered");
+        datePosted = map.get("datePosted").toString();
         postedBy = map.get("postedBy");
         subject = map.get("subject");
     }
