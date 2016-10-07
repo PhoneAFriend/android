@@ -1,5 +1,6 @@
 package seniordesign.phoneafriend.posting;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -46,7 +47,13 @@ public class NewPostActivity extends AppCompatActivity {
         if(!titleText.getText().toString().matches("") || !bodyText.getText().toString().matches("")){
             Post post = new Post(titleText.getText().toString() , bodyText.getText().toString() , currentUser.getUid().toString());
             db.child("posts").child(post.getPostId()).setValue(post.toMap());
+            Intent postListIntent = new Intent(this , PostListActivity.class);
+            titleText.setText("");
+            bodyText.setText("");
+            startActivity(postListIntent);
         }
+
+
     }
 
 
