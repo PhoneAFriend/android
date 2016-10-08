@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import seniordesign.phoneafriend.R;
 
@@ -22,7 +24,9 @@ public class SignUp extends AppCompatActivity {
     protected Firebase ref;
     protected EditText emailText;
     protected EditText passText;
+    protected EditText nameText;
     protected EditText confirmText;
+    protected TextView errorText;
     protected Button button;
     protected SignUp thisContext;
 
@@ -40,6 +44,8 @@ public class SignUp extends AppCompatActivity {
         emailText = (EditText) findViewById(R.id.signup_emailText);
         passText = (EditText) findViewById(R.id.signup_passwordText);
         confirmText = (EditText) findViewById(R.id.signup_passwordConfirm);
+        nameText = (EditText) findViewById(R.id.signup_usernameText);
+        errorText = (TextView) findViewById(R.id.signup_errorText);
         intent = new Intent(this, SignIn.class);
         auth = FirebaseAuth.getInstance();
 
@@ -72,7 +78,7 @@ public class SignUp extends AppCompatActivity {
 
     }
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         //auth.addAuthStateListener(authListener);
     }
@@ -83,36 +89,63 @@ public class SignUp extends AppCompatActivity {
         if(authListener != null) {
             //auth.removeAuthStateListener(authListener);
         }
+        emailText.setText("");
+        errorText.setText("");
+        passText.setText("");
+        nameText.setText("");
+        confirmText.setText("");
     }
 
     protected void createUser(View view){
         String cString = null;
         String pString = null;
         String eString  = emailText.getText().toString();
-        if(passText.getText() != null && confirmText.getText() != null) {
+        if(!emailText.getText().toString().equals("") ||
+                !passText.getText().toString().equals("") ||
+                !confirmText.getText().toString().equals("") ||
+                !nameText.getText().toString().equals("")
+                ) {
             pString = passText.getText().toString();
             cString = confirmText.getText().toString();
             Log.v("SignUP: Pass Null check" , "Pass" );
-            if (emailText.getText() != null && pString.equals(cString) && passText.getText() != null) {
-                Log.v("SignUP: Sign up check " , "Pass");
-                auth.createUserWithEmailAndPassword(emailText.getText().toString() , passText.getText().toString())
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.v("createUser complete" , "status: " + task.isSuccessful());
-                                if(task.isSuccessful()){
-                                    startActivity(SignUp.intent);
+            if(checkDupilcateUsername(nameText.getText().toString())) {
+                if (pString.equals(cString)) {
+                    Log.v("SignUP: Sign up check ", "Pass");
+                    auth.createUserWithEmailAndPassword(emailText.getText().toString(), passText.getText().toString())
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Log.v("createUser complete", "status: " + task.isSuccessful());
+                                    if (task.isSuccessful()) {
+                                        startActivity(SignUp.intent);
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        UserProfileChangeRequest changeRequest = new UserProfileChangeRequest.Builder().setDisplayName(nameText.getText().toString()).build();
+                                        user.updateProfile(changeRequest);
+                                    }
+                                    if (task.isSuccessful() == false) {
+                                        Log.v("  Failure reason ", task.getException().toString());
+                                        String[] errorString = task.getException().toString().split(":");
+                                        errorText.setText("Error; " + errorString[1]);
+                                    }
                                 }
-                                if(task.isSuccessful() == false){
-                                    Log.v("  Failure reason " , task.getException().toString());
-                                }
-                            }
 
-                        });
+                            });
 
+                } else {
+                    errorText.setText("Error: Your passwords did not match");
+                }
+            }else{
+                errorText.setText("Error: Username already taken");
             }
+        }else{
+            errorText.setText("Error: One or more fields have been left blank");
         }
 
         return;
+    }
+
+    /* Returns true on pass, false on failure */
+    private boolean checkDupilcateUsername(String username){
+        return true;
     }
 }

@@ -31,7 +31,9 @@ public class PostListActivity extends AppCompatActivity {
 
     private Intent newPostIntent;
     private Button newPostButton;
+    private Button refreshButton;
     private View.OnClickListener newPostListener;
+    private View.OnClickListener refreshListener;
     private DatabaseReference db;
     private Map<String , Object> posts;
     private TextView testView;
@@ -52,6 +54,7 @@ public class PostListActivity extends AppCompatActivity {
         postArrayList = new ArrayList();
         db = FirebaseDatabase.getInstance().getReference();
         newPostButton = (Button) findViewById(R.id.postList_newPostButton);
+        refreshButton = (Button) findViewById(R.id.postList_refreshButton);
         newPostIntent = new Intent(this , NewPostActivity.class);
         newPostListener = new View.OnClickListener() {
             @Override
@@ -59,7 +62,14 @@ public class PostListActivity extends AppCompatActivity {
                 startActivity(newPostIntent);
             }
         };
+        refreshListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                init();
+            }
+        };
         newPostButton.setOnClickListener(newPostListener);
+        refreshButton.setOnClickListener(refreshListener);
         postListView = (ListView) findViewById(R.id.postList_postList);
         init();
     }
@@ -72,9 +82,6 @@ public class PostListActivity extends AppCompatActivity {
                             posts = (HashMap<String,Object>) dataSnapshot.getValue();
                             Log.v("PostListFetching DB:" , "GOT POSTS");
                             Collection<Object> collection = posts.values();
-                            int size = collection.size();
-                            String test = Integer.toString(size);
-                            Log.v("Post amount recv : " , test);
                             Iterator<Object> iterator = collection.iterator();
 
                             initPosts(iterator);
@@ -96,7 +103,6 @@ public class PostListActivity extends AppCompatActivity {
             post = new Post();
             obj = iterator.next();
             post.initFromMap((HashMap<String , String>) obj);
-            Log.v("InitPost postText0:" , post.getQuestionText());
             postArrayList.add(post);
         }
 
@@ -104,9 +110,7 @@ public class PostListActivity extends AppCompatActivity {
         Iterator<Post> arrayListIterator = postArrayList.iterator();
         int count = 0;
         while(arrayListIterator.hasNext()){
-            listViewValues[count] = arrayListIterator.next();
-            Log.v("InitPost postText1:" , listViewValues[count].getQuestionText());
-            count++;
+            listViewValues[count++] = arrayListIterator.next();
 
         }
         postListViewAdapter = new PostListAdapter(this , listViewValues);
