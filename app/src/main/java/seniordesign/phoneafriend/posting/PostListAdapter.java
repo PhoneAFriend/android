@@ -36,7 +36,7 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         questionTitle.setText(values[position].getQuestionTitle());
         postedBy.setText("By: "+ values[position].getPostedBy());
-        datePosted.setText(values[position].getDatePosted());
+        datePosted.setText("On: " + values[position].getDatePosted());
 
 
         return elementView;
