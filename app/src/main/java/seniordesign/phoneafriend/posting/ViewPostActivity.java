@@ -2,6 +2,7 @@ package seniordesign.phoneafriend.posting;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 import seniordesign.phoneafriend.R;
@@ -30,6 +31,7 @@ public class ViewPostActivity extends AppCompatActivity {
         questionTitleView.setText(recvExtras.getString("questionTitle"));
         questionTextView.setText(recvExtras.getString("questionText"));
         postedByView.setText("By: " + recvExtras.getString("postedBy"));
+        questionTextView.setMovementMethod(new ScrollingMovementMethod());
 
     }
 }

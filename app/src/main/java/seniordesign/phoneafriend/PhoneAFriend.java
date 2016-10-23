@@ -22,4 +22,5 @@ public class PhoneAFriend extends Application {
     public void onDestroy(){
 
     }
+
 }
