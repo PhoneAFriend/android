@@ -63,4 +63,14 @@
         android:layout_alignParentStart="true"
         android:id="@+id/signin_alexIn" />
 
+    <TextView
+        android:text=""
+        android:textColor="#ff0000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signup_link"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:id="@+id/signin_errorText" />
+
 </RelativeLayout>

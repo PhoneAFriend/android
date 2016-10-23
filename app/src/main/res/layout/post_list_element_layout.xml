@@ -8,27 +8,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/postListElement_questionTitle"
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <TextView
         android:text=""
-        android:layout_width="195dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/postListElement_dateText"
+        android:layout_below="@+id/postListElement_questionTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/postListElement_authorText"
+        android:layout_toRightOf="@+id/postListElement_authorText"
+        android:layout_width="185dp" />
+
+    <TextView
+        android:text=""
         android:layout_height="wrap_content"
         android:id="@+id/postListElement_authorText"
         android:layout_below="@+id/postListElement_questionTitle"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text=""
-        android:layout_width="193dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/postListElement_dateText"
-        android:layout_alignBaseline="@+id/postListElement_authorText"
-        android:layout_alignBottom="@+id/postListElement_authorText"
-        android:layout_toRightOf="@+id/postListElement_authorText"
-        android:layout_toEndOf="@+id/postListElement_authorText" />
+        android:layout_alignParentStart="true"
+        android:layout_width="185dp" />
 
 </RelativeLayout>

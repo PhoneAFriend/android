@@ -39,10 +39,10 @@
         android:layout_alignParentStart="true"></ListView>
 
     <Button
-        android:text="Button"
+        android:text="Refresh"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/button9"
+        android:id="@+id/postList_refreshButton"
         android:layout_alignBaseline="@+id/postList_newPostButton"
         android:layout_alignBottom="@+id/postList_newPostButton"
         android:layout_alignParentRight="true"
