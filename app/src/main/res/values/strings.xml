@@ -18,5 +18,12 @@
     <string name="session_button">Start A Session</string>
     <string name="button_four">Quatro</string>
 
+    <!-- Values associated with labels or buttons for the settings frame -->
+    <string name="settings_title">Update Account Settings</string>
+    <string name="username_label">UserName</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Change Password</string>
+    <string name="logout_button">Log Out</string>
+
 
 </resources>
