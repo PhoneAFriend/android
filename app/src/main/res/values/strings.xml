@@ -24,6 +24,8 @@
     <string name="email_label">Email</string>
     <string name="password_label">Change Password</string>
     <string name="logout_button">Log Out</string>
-
+    <string name="cur_pass">Current Password</string>
+    <string name="new_email">New Email</string>
+    <string name="submit_change">Submit</string>
 
 </resources>

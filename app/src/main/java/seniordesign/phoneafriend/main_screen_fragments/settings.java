@@ -23,21 +23,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.authentication.SignIn;
+import seniordesign.phoneafriend.updateSettings.updateEmail;
 
 public class settings extends Fragment {
 
-    //private View view;
-    //private TextView emailText;
-    //private View.OnClickListener usernameClickListener;
-    //private View.OnClickListener emailClickListener;
-    //private View.OnClickListener passClickListener;
-    //private View.OnClickListener logoutClickListener;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     //private Intent changeName;
     private Intent changeEmail;
     private Intent changePass;
-    private Intent logout;
 
     private RelativeLayout userSection;
     private RelativeLayout emailSection;
@@ -51,7 +45,6 @@ public class settings extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.settings_layout, container, false);
-        //changeEmail = new Intent(this , updateEmail.class);
 
         //get the authentication instance and set the current user
         auth = FirebaseAuth.getInstance();
@@ -132,7 +125,8 @@ public class settings extends Fragment {
     }
 
     private void changeEmail(){
-        Toast.makeText(getActivity(), "Change Email", Toast.LENGTH_LONG ).show();
+        //Take me to the screen where I can update my email
+        startActivity(new Intent(getActivity(), updateEmail.class));
     }
 
     private void changePassword(){

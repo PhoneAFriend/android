@@ -25,6 +25,7 @@
         <activity android:name=".posting.PostListActivity"></activity>
         <activity android:name=".main_screen"></activity>
         <activity android:name=".posting.ViewPostActivity"></activity>
+        <activity android:name=".updateSettings.updateEmail"></activity>
     </application>
 
 </manifest>
