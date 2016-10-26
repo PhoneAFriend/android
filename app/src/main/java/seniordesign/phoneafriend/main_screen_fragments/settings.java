@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.authentication.SignIn;
 import seniordesign.phoneafriend.updateSettings.updateEmail;
+import seniordesign.phoneafriend.updateSettings.updatePassword;
 
 public class settings extends Fragment {
 
@@ -130,7 +131,8 @@ public class settings extends Fragment {
     }
 
     private void changePassword(){
-        Toast.makeText(getActivity(), "Change Pass", Toast.LENGTH_LONG ).show();
+        //Toast.makeText(getActivity(), "Change Pass", Toast.LENGTH_LONG ).show();
+        startActivity(new Intent(getActivity(), updatePassword.class));
     }
 
     @Override

@@ -17,8 +17,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.shaded.apache.http.auth.AUTH;
-
 import seniordesign.phoneafriend.R;
 
 /**
@@ -67,7 +65,7 @@ public class updateEmail extends AppCompatActivity {
                     cred = EmailAuthProvider
                             .getCredential(userEmail, passText.getText().toString());
                     //pass credentials into function that begins process for change
-                    submitEmailChange(cred);
+                    reauthChange(cred);
                 }
             }
         };
@@ -75,7 +73,7 @@ public class updateEmail extends AppCompatActivity {
 
     }
 
-    private void submitEmailChange(AuthCredential cred){
+    private void reauthChange(AuthCredential cred){
 
         // Prompt the user to re-provide their sign-in credentials
         //use credentials passed into the function
