@@ -28,7 +28,8 @@
         <activity android:name=".main_screen" />
         <activity android:name=".posting.ViewPostActivity" />
         <activity android:name=".updateSettings.updateEmail" />
-        <activity android:name=".updateSettings.updatePassword"></activity>
+        <activity android:name=".updateSettings.updatePassword" />
+        <activity android:name=".userSearch.searchUsers"></activity>
     </application>
 
 </manifest>
