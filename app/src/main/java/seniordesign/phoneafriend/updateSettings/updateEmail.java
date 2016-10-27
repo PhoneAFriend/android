@@ -62,10 +62,10 @@ public class updateEmail extends AppCompatActivity {
                 else {
                     //if no error, make user credentials from email and inputted password
                     //we need to verify user before making a change
-                    cred = EmailAuthProvider
+                    /*cred = EmailAuthProvider
                             .getCredential(userEmail, passText.getText().toString());
                     //pass credentials into function that begins process for change
-                    reauthChange(cred);
+                    reauthChange(cred);*/
                 }
             }
         };
