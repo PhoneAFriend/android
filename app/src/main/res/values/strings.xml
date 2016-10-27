@@ -12,5 +12,21 @@
     <string name="signup_button">Sign Up</string>
     <string name="signup_msg">New User? Click to sign up!</string>
 
+    <!-- Values associated with buttons in the main selection frame -->
+    <string name="post_button">Question Posts</string>
+    <string name="search_users_button">Search For Friends</string>
+    <string name="session_button">Start A Session</string>
+    <string name="button_four">Quatro</string>
+
+    <!-- Values associated with labels or buttons for the settings frame -->
+    <string name="settings_title">Update Account Settings</string>
+    <string name="username_label">UserName</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Change Password</string>
+    <string name="logout_button">Log Out</string>
+    <string name="cur_pass">Current Password</string>
+    <string name="new_pass">New Password</string>
+    <string name="new_email">New Email</string>
+    <string name="submit_change">Submit</string>
 
 </resources>
