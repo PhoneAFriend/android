@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.authentication;
 
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import seniordesign.phoneafriend.posting.Post;
 
@@ -9,24 +10,23 @@ import seniordesign.phoneafriend.posting.Post;
  */
 public class User {
     private String id;
+    private String useremail;
     private String username;
-    private HashMap<String , Post> posts;
-    private HashMap<String , User> friends;
 
     public User(){}
-    public User(String id , String username){
+    public User(String id , String useremail, String username){
         this.id = id;
+        this.useremail = useremail;
         this.username = username;
-        posts = new HashMap<String , Post>();
-        friends = new HashMap<String , User>();
+
     }
 
     public HashMap<String, Object> toMap(){
         HashMap<String , Object> map = new HashMap<>();
-        map.put("username" , username);
-        map.put("posts" , posts);
-        map.put("friends" , friends);
         map.put("id" , id);
+        map.put("useremail",useremail);
+        map.put("username" , username);
+
         return map;
 
     }
