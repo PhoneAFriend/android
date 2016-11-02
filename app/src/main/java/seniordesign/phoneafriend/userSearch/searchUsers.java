@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import seniordesign.phoneafriend.R;
 
 public class searchUsers extends AppCompatActivity {
@@ -50,7 +52,17 @@ public class searchUsers extends AppCompatActivity {
         //get the listView and set its empty text
         searchList = (ListView) findViewById(R.id.search_user_list_view);
         emptyText = (TextView) findViewById(R.id.empty_text);
+        emptyText.setText("Nothing to see here");
         searchList.setEmptyView(emptyText);
+
+
+        //generate list
+        ArrayList<String> list = new ArrayList<String>();
+        //list.add("username1");
+        //list.add("username2");
+
+        searchUserListAdapter adapter = new searchUserListAdapter(this,list);
+        searchList.setAdapter(adapter);
 
     }
 
