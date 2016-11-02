@@ -129,7 +129,7 @@ public class SignIn extends AppCompatActivity {
     }
     /* Delete Later */
     private void alexIn(){
-        auth.signInWithEmailAndPassword("thealex123@gmail.com" , "ilovethisapp" )
+        auth.signInWithEmailAndPassword("barahonaraul@live.com" , "password123" )
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
