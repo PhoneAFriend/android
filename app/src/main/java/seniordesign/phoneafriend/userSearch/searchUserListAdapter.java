@@ -18,7 +18,7 @@ import java.util.StringTokenizer;
 import seniordesign.phoneafriend.R;
 
 /**
- * Created by REB on 11/1/2016.
+ * Created by REB.
  */
 
 public class searchUserListAdapter extends BaseAdapter implements ListAdapter {

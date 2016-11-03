@@ -14,11 +14,36 @@ public class User {
     private String username;
 
     public User(){}
+
     public User(String id , String useremail, String username){
         this.id = id;
         this.useremail = useremail;
         this.username = username;
 
+    }
+
+    public String getName(){
+        return username;
+    }
+
+    public String getEmail(){
+        return useremail;
+    }
+
+    public String getUID(){
+        return id;
+    }
+
+    public void setName(String newName){
+        this.username = newName;
+    }
+
+    public void setEmail(String newEmail){
+        this.useremail = newEmail;
+    }
+
+    public void setID(String newID){
+        this.id = newID;
     }
 
     public HashMap<String, Object> toMap(){
