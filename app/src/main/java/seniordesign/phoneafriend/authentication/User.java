@@ -13,7 +13,9 @@ public class User {
     private String useremail;
     private String username;
 
-    public User(){}
+    public User(){
+
+    }
 
     public User(String id , String useremail, String username){
         this.id = id;
@@ -22,29 +24,30 @@ public class User {
 
     }
 
-    public String getName(){
-        return username;
-    }
-
-    public String getEmail(){
-        return useremail;
-    }
-
-    public String getUID(){
+    public String getID(){
         return id;
     }
 
-    public void setName(String newName){
-        this.username = newName;
+    public String getUseremail(){
+        return useremail;
     }
 
-    public void setEmail(String newEmail){
-        this.useremail = newEmail;
+    public String getUsername(){
+        return username;
     }
 
     public void setID(String newID){
         this.id = newID;
     }
+
+    public void setUseremail(String newEmail){
+        this.useremail = newEmail;
+    }
+
+    public void setUsername(String newName){
+        this.username = newName;
+    }
+
 
     public HashMap<String, Object> toMap(){
         HashMap<String , Object> map = new HashMap<>();
