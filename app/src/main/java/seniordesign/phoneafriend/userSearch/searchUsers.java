@@ -64,24 +64,25 @@ public class searchUsers extends AppCompatActivity {
                 // What to do when user submits the query string
                 //Output the new list with the query results
                 //Toast.makeText(searchUsers.this, searcher.getQuery(), Toast.LENGTH_LONG).show();
-                //list.clear();
-                //String t = searcher.getQuery().toString();
+                list.clear();
+                String t = searcher.getQuery().toString();
                 //if(isEmailQuery(t))
                 //    Toast.makeText(searchUsers.this,"EMAIL",Toast.LENGTH_LONG).show();
                 //list.add(t);
                 //adapter.notifyDataSetChanged();
-                /*db.child("users").orderByChild("username").startAt(t).addListenerForSingleValueEvent(new ValueEventListener() {
+                db.child("users").orderByChild("username").startAt(t).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot != null) {
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 //String name = (String) userSnap.child("username").getValue();
                                 User temp = (User) userSnap.getValue(User.class);
-                                Log.d("user is: ",temp.getName());
-                                /*if(!isCurrentUser(currentUser,temp.getUID())){
-                                    list.add(temp.getName());
+                                Log.d("user is: ",temp.getUsername());
+                                if(!isCurrentUser(currentUser,temp.getID())){
+                                    list.add(temp.getUsername());
                                 }
                             }
+                            adapter.notifyDataSetChanged();
                         }else{
                             Log.d("DATA D","NULL dataSnapShot Search");
                         }
@@ -92,7 +93,7 @@ public class searchUsers extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });*/
+                });
                 //User bob = new User("123","bob@mail.com","bobby");
                 //Log.d("id is",bob.getUID());
 
