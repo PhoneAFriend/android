@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.main_screen;
 
 public class SignUp extends AppCompatActivity {
     protected Firebase ref;
@@ -66,7 +69,7 @@ public class SignUp extends AppCompatActivity {
         confirmText = (EditText) findViewById(R.id.signup_passwordConfirm);
         nameText = (EditText) findViewById(R.id.signup_usernameText);
         errorText = (TextView) findViewById(R.id.signup_errorText);
-        intent = new Intent(this, SignIn.class);
+        intent = new Intent(this, main_screen.class);
         auth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance().getReference();
         dupFlag = false;
@@ -102,7 +105,7 @@ public class SignUp extends AppCompatActivity {
         testClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkDupilcateUsername("TheAlex");
+                //checkDuplicateUsername("TheAlex");
             }
         };
         testButton.setOnClickListener(testClickListener);
@@ -127,66 +130,37 @@ public class SignUp extends AppCompatActivity {
     }
 
     protected void createUser(View view){
-        String cString = null;
-        String pString = null;
         String eString  = emailText.getText().toString();
-        if(!emailText.getText().toString().equals("") ||
-                !passText.getText().toString().equals("") ||
-                !confirmText.getText().toString().equals("") ||
-                !nameText.getText().toString().equals("")
+        if(!TextUtils.isEmpty(emailText.getText().toString()) &&
+                !TextUtils.isEmpty(passText.getText().toString()) &&
+                !TextUtils.isEmpty(confirmText.getText().toString()) &&
+                !TextUtils.isEmpty(nameText.getText().toString())
                 ) {
-            pString = passText.getText().toString();
-            cString = confirmText.getText().toString();
-            Log.v("SignUP: Pass Null check" , "Pass" );
-            checkDupilcateUsername(nameText.getText().toString());
-            if(!dupFlag) {
-                if (pString.equals(cString)) {
-                    Log.v("SignUP: Sign up check ", "Pass");
-                    auth.createUserWithEmailAndPassword(emailText.getText().toString(), passText.getText().toString())
-                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Log.v("createUser complete", "status: " + task.isSuccessful());
-                                    if (task.isSuccessful()) {
-                                        FirebaseUser user = auth.getCurrentUser();
-                                        User thisUser = new User(user.getUid().toString() , nameText.getText().toString());
-                                        db.child("users").child("-"+user.getUid().toString()).setValue(thisUser.toMap());
 
-                                        startActivity(SignUp.intent);
-                                    }
-                                    if (task.isSuccessful() == false) {
-                                        Log.v("  Failure reason ", task.getException().toString());
-                                        String[] errorString = task.getException().toString().split(":");
-                                        errorText.setText("Error; " + errorString[1]);
-                                    }
-                                }
-
-                            });
-
-                } else {
-                    errorText.setText("Error: Your passwords did not match");
-                }
-            }else{
-                errorText.setText("Error: Username already taken");
-                dupFlag = false;
-            }
-        }else{
-            errorText.setText("Error: One or more fields have been left blank");
+            Log.v("SignUP: Pass Null check", "Pass");
+            checkDuplicateandMake(nameText.getText().toString());
+            //makeUser();
         }
+            else{
+                Toast.makeText(SignUp.this, "Error: One or more fields have been left blank", Toast.LENGTH_LONG).show();
+            }
 
         return;
     }
 
     /* Returns true on pass, false on failure */
-    private void checkDupilcateUsername(final String username){
-        HashMap<String , Object> queryResults;
-        db.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+    private void checkDuplicateandMake(final String username){
+        //Query the database to see if there is an entry with the matching username
+        db.child("users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    setDuplicateUsername(dataSnapshot , username);
+                    //if there is a matching entry diplay error
+                    Toast.makeText(SignUp.this, "Error: Username already taken", Toast.LENGTH_LONG).show();
                 }else{
                     Log.v("Test Result: " , "DATASNAPSHOT IS NULL");
+                    //if there was not, then make the new user
+                    makeUser();
                 }
             }
 
@@ -198,25 +172,42 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    private void setDuplicateUsername(DataSnapshot dataSnapshot , String username){
-        HashMap<String , Object> queryResults = (HashMap<String , Object>) dataSnapshot.getValue();
-        Collection<Object> userCollection = queryResults.values();
-        Iterator<Object> userIterator = userCollection.iterator();
-        ArrayList<Object> userList = new ArrayList<>();
-        while(userIterator.hasNext()){
-            userList.add(userIterator.next());
-        }
-        HashMap<String , Object> userData = new HashMap<>();
-        String tempUsername;
-        for(int i = 0; i < userList.size(); i++){
-            userData = (HashMap<String , Object>) userList.get(i);
-            Log.v("UserData: " , userData.toString());
-            tempUsername = (String) userData.get("username");
-            if(tempUsername.equals(username)){
-                Log.v("Duplicate found at: ", userData.toString());
-                dupFlag = true;
-                return;
+    private void makeUser(){
+            //Get the password strings and compare them
+            String pString = passText.getText().toString();
+            String cString = confirmText.getText().toString();
+            if (pString.equals(cString)) {
+                Log.v("SignUP: Sign up check ", "Pass");
+                //attempt to create user with email and password
+                auth.createUserWithEmailAndPassword(emailText.getText().toString(), passText.getText().toString())
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Log.v("createUser complete", "status: " + task.isSuccessful());
+                                if (task.isSuccessful()) {
+                                    //if creation successful, post to users on database
+                                    FirebaseUser user = auth.getCurrentUser();//get current user(should be newly created user)
+                                    User thisUser = new User(user.getUid(), user.getEmail(), nameText.getText().toString());//Make new user object
+                                    String key = db.child("users").push().getKey();//generate random key
+                                    db.child("users").child(key).setValue(thisUser.toMap());//post to database
+
+                                    startActivity(SignUp.intent);
+                                }
+                                else{
+                                    Log.v("  Failure reason ", task.getException().toString());
+                                    String[] errorString = task.getException().toString().split(":");
+                                    Toast.makeText(SignUp.this,"Error: " + errorString[1], Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                        });
+
+            } else {
+                Toast.makeText(SignUp.this, "Error: Your passwords did not match", Toast.LENGTH_LONG).show();
             }
-        }
+
     }
+
+
+
 }
