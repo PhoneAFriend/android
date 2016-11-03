@@ -13,10 +13,29 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class PhoneAFriend extends Application {
 
+    private String username;
+
+    static PhoneAFriend myAppInstance;
+    public PhoneAFriend() {
+        myAppInstance = this;
+    }
+
     public void onCreate(){
         super.onCreate();
         Firebase.setAndroidContext(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+    }
+
+    public static PhoneAFriend getInstance() {
+        return myAppInstance;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void setUsername(String newUsername){
+        this.username = newUsername;
     }
 
     public void onDestroy(){

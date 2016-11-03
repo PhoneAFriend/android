@@ -16,9 +16,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
@@ -27,7 +33,7 @@ import seniordesign.phoneafriend.posting.NewPostActivity;
 public class SignIn extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
-
+    private DatabaseReference db;
     private EditText emailText;
     private EditText passText;
     private TextView errorText;
@@ -45,6 +51,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        db = FirebaseDatabase.getInstance().getReference();
         emailText = (EditText) findViewById(R.id.signin_emailText);
         passText = (EditText) findViewById(R.id.signin_passwordText);
         intent = new Intent(this, main_screen.class);
@@ -109,6 +116,7 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void login(String email , String password){
+        final String neededEmail = email;
         auth.signInWithEmailAndPassword(email , password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,6 +124,7 @@ public class SignIn extends AppCompatActivity {
                         Log.v("Sign in attempt : " , "Completed");
                         if(task.isSuccessful()){
                             Log.v("Sign in status:" , "Success");
+                            setAppUsername(neededEmail);
                             startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
@@ -129,6 +138,9 @@ public class SignIn extends AppCompatActivity {
     }
     /* Delete Later */
     private void alexIn(){
+
+
+
         auth.signInWithEmailAndPassword("barahonaraul@live.com" , "password123" )
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -136,6 +148,21 @@ public class SignIn extends AppCompatActivity {
                         Log.v("Sign in attempt : " , "Completed");
                         if(task.isSuccessful()){
                             Log.v("Sign in status:" , "Success");
+                            db.child("users").orderByChild("useremail").equalTo("barahonaraul@live.com").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if( dataSnapshot.getChildrenCount() == 1)
+                                        for (DataSnapshot u : dataSnapshot.getChildren()){
+                                            User s = (User) u.getValue(User.class);
+                                            ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                                        }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                             startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
@@ -143,6 +170,24 @@ public class SignIn extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void setAppUsername(String email){
+        db.child("users").orderByChild("useremail").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if( dataSnapshot.getChildrenCount() == 1)
+                    for (DataSnapshot u : dataSnapshot.getChildren()){
+                        User s = (User) u.getValue(User.class);
+                        ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                    }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
     /*              */
 

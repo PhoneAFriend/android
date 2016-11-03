@@ -12,10 +12,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.authentication.User;
 
 /**
  * Created by REB.
@@ -24,10 +30,12 @@ import seniordesign.phoneafriend.R;
 public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
     private Context context;
     private ArrayList<String> values = new ArrayList<String>();
+    private DatabaseReference db;
 
-    public searchUserListAdapter(Context context, ArrayList<String> values){
+    public searchUserListAdapter(Context context, ArrayList<String> values, DatabaseReference db){
         this.context = context;
         this.values = values;
+        this.db = db;
     }
 
     @Override
@@ -44,6 +52,10 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
     public long getItemId(int pos) {
         return 0;
         //just return 0 if your list items do not have an Id variable.
+    }
+
+    public DatabaseReference getDb(){
+        return db;
     }
 
     @Override
@@ -67,15 +79,17 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 //do something
                 Toast.makeText(context,"MESSAGING " + values.get(position),Toast.LENGTH_LONG).show();
-                notifyDataSetChanged();
+                //User t = new User("123","email@lol.com",values.get(position));
+                //String key = getDb().child("TestMSG").push().getKey();
+                //getDb().child("TestMSG").child(key).setValue(values.get(position));
             }
         });
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 //do something
-                Toast.makeText(context,"ADDING " + values.get(position),Toast.LENGTH_LONG).show();
-                notifyDataSetChanged();
+                String s = PhoneAFriend.getInstance().getUsername();
+                Toast.makeText(context,"ADDING " + values.get(position) +" "+s,Toast.LENGTH_LONG).show();
             }
         });
 

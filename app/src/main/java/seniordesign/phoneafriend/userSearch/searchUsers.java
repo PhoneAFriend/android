@@ -114,10 +114,10 @@ public class searchUsers extends AppCompatActivity {
 
         //generate list
         list = new ArrayList<String>();
-        list.add("username1");
-        list.add("username2");
+        //list.add("username1");
+        //list.add("username2");
 
-        adapter = new searchUserListAdapter(this,list);
+        adapter = new searchUserListAdapter(this,list,db);
         searchList.setAdapter(adapter);
 
     }

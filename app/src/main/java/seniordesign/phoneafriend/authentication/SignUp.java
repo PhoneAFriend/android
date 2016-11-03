@@ -190,7 +190,7 @@ public class SignUp extends AppCompatActivity {
                                     User thisUser = new User(user.getUid(), user.getEmail(), nameText.getText().toString());//Make new user object
                                     String key = db.child("users").push().getKey();//generate random key
                                     db.child("users").child(key).setValue(thisUser.toMap());//post to database
-
+                                    ((PhoneAFriend) getApplication()).setUsername(thisUser.getUsername());// set up the global username var for our app
                                     startActivity(SignUp.intent);
                                 }
                                 else{
@@ -207,7 +207,6 @@ public class SignUp extends AppCompatActivity {
             }
 
     }
-
 
 
 }
