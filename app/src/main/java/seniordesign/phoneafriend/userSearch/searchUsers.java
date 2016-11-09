@@ -86,6 +86,7 @@ public class searchUsers extends AppCompatActivity {
                         }else{
                             Log.d("DATA D","NULL dataSnapShot Search");
                         }
+                        emptyText.setText("No users found!");
 
                     }
 

@@ -89,7 +89,7 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 //do something
                 String s = PhoneAFriend.getInstance().getUsername();
-                Toast.makeText(context,"ADDING " + values.get(position) +" "+s,Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"ADDING " + values.get(position) +" to "+s+"'s contacts",Toast.LENGTH_LONG).show();
             }
         });
 

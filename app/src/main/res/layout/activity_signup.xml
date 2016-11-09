@@ -81,7 +81,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/signup_test" />
+        android:id="@+id/signup_test"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
