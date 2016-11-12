@@ -152,15 +152,14 @@ public class searchUsers extends AppCompatActivity {
         //get the listView and set its empty text
         searchList = (ListView) findViewById(R.id.search_user_list_view);
         emptyText = (TextView) findViewById(R.id.empty_text);
+        //Set empty text to a starting message
         emptyText.setText("Search User by inputting username or email");
         searchList.setEmptyView(emptyText);
 
-
-        //generate list
+        //generate list that will hold our search results
         list = new ArrayList<String>();
-        //list.add("username1");
-        //list.add("username2");
 
+        //set list and database reference for our adapter
         adapter = new searchUserListAdapter(this,list,db);
         searchList.setAdapter(adapter);
 
