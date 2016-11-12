@@ -73,7 +73,6 @@ public class searchUsers extends AppCompatActivity {
                 //Check if the user attempted to search via email (Checks for @ character in t)
                 if(isEmailQuery(t)){
                     //If they did we look for an exact match on the email
-                    Toast.makeText(searchUsers.this,"EMAIL",Toast.LENGTH_LONG).show();
                     db.child("users").orderByChild("useremail").equalTo(t).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -143,7 +142,7 @@ public class searchUsers extends AppCompatActivity {
                 return false;
             }
         };
-        
+
 
 
 
