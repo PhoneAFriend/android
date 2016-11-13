@@ -13,7 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.StringTokenizer;
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.authentication.User;
+import seniordesign.phoneafriend.contacts.Contacts;
 
 /**
  * Created by REB.
@@ -88,8 +92,91 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 //do something
-                String s = PhoneAFriend.getInstance().getUsername();
-                Toast.makeText(context,"ADDING " + values.get(position) +" to "+s+"'s contacts",Toast.LENGTH_LONG).show();
+                final String currentUsername = PhoneAFriend.getInstance().getUsername();
+
+                getDb().child("Contacts").orderByChild("username1").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Check to see if the snapshot is null, this means there are no contacts where current user is username1
+                        if (dataSnapshot != null) {
+                            //If we had data, lets find the element where username2 is the user we want to add
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                //Create a temp user so we can grab the data and get the username
+                                Contacts temp = (Contacts) userSnap.getValue(Contacts.class);
+                                //if username2 matches user we want to add, and boolean value checking status is false
+                                //then change boolean flag for username1 to username2 contact status to true and push to database
+                                if (temp.getUsername2().equals(values.get(position))) {
+                                    if(!temp.isU12()) {
+                                        temp.setU12(true);
+                                        getDb().child("Contacts").child(userSnap.getKey()).setValue(temp.toMap());
+                                        Toast.makeText(context, "Q1 ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
+                                        //return as we have completed adding the contact
+                                        return;
+                                    }else{
+                                        Toast.makeText(context, "User already a Contact!", Toast.LENGTH_LONG).show();
+                                        //return as user is already a contact
+                                        return;
+                                    }
+
+                                }
+
+                            }
+                        }
+                            //If we get here, then we didn't find the contact as username1 = currentUser username2 = user to be added
+                            //If user was not username1, let's see if there is an instance where username2 is current user
+                            //and username1 is user we want to add
+                            //Let us query based on username2
+                            getDb().child("Contacts").orderByChild("username2").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    //Check to see if the snapshot is null, this means there are no contacts where current user is username1
+                                    if (dataSnapshot != null) {
+                                        //If we had data, lets find the element where username2 is the user we want to add
+                                        for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                            //Create a temp user so we can grab the data and get the username
+                                            Contacts temp = (Contacts) userSnap.getValue(Contacts.class);
+                                            //if username2 matches user we want to add, and boolean value checking status is false
+                                            //then change boolean flag for username1 to username2 contact status to true and push to database
+                                            if(temp.getUsername1().equals(values.get(position))) {
+                                                if(!temp.isU21()) {
+                                                    temp.setU21(true);
+                                                    getDb().child("Contacts").child(userSnap.getKey()).setValue(temp.toMap());
+                                                    Toast.makeText(context, "Q2 ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
+                                                    //return as we have completed adding the contact
+                                                    return;
+                                                }else{
+                                                    Toast.makeText(context, "User already a Contact!", Toast.LENGTH_LONG).show();
+                                                    //return as we found out the user is already a contact
+                                                    return;
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                    //If we get here then we can create a new contact for Contacts in the database
+                                        Contacts newContact = new Contacts(currentUsername, values.get(position),true,false);
+                                        String key = getDb().child("Contacts").push().getKey();
+                                        getDb().child("Contacts").child(key).setValue(newContact.toMap());
+                                        Toast.makeText(context, "ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
+                                        //program will end up normally returning from this point as we have done everything possible
+                                        //try and add the contact
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
 
