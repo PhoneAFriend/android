@@ -59,5 +59,7 @@ public class Contacts {
         map.put("username2",username2);
         map.put("u12",u12);
         map.put("u21",u21);
+
+        return map;
     }
 }
