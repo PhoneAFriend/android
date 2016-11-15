@@ -1,13 +1,11 @@
 package seniordesign.phoneafriend;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TabHost;
 
@@ -15,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import seniordesign.phoneafriend.main_screen_adapters.MainScreenPagerAdapter;
-import seniordesign.phoneafriend.main_screen_fragments.contacts;
+import seniordesign.phoneafriend.main_screen_fragments.contacts_section;
 import seniordesign.phoneafriend.main_screen_fragments.inbox;
 import seniordesign.phoneafriend.main_screen_fragments.main_selections;
 import seniordesign.phoneafriend.main_screen_fragments.settings;
-import seniordesign.phoneafriend.posting.NewPostActivity;
 
 public class main_screen extends AppCompatActivity implements ViewPager.OnPageChangeListener, TabHost.OnTabChangeListener {
 
@@ -80,7 +77,7 @@ public class main_screen extends AppCompatActivity implements ViewPager.OnPageCh
 
         List<Fragment> listFragments = new ArrayList<>();
         listFragments.add(new main_selections());
-        listFragments.add(new contacts());
+        listFragments.add(new contacts_section());
         listFragments.add(new inbox());
         listFragments.add(new settings());
 

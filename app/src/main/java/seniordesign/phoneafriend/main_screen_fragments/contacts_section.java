@@ -6,17 +6,33 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import seniordesign.phoneafriend.R;
 
-public class contacts extends Fragment {
+public class contacts_section extends Fragment {
+
+    private ListView contactsListView;
+    private TextView emptyText;
+    //private contactListAdapter adapter;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        //View v = inflater.inflate(R.layout.main_selections_layout, container, false);
-        return inflater.inflate(R.layout.contacts_layout, container, false);
-        //return v;
+        View v = inflater.inflate(R.layout.main_selections_layout, container, false);
+        //return inflater.inflate(R.layout.contacts_layout, container, false);
+
+
+
+
+
+
+        return v;
+
+
     }
 }
