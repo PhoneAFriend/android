@@ -10,12 +10,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.contacts.contactListAdapter;
 
 public class contacts_section extends Fragment {
 
     private ListView contactsListView;
     private TextView emptyText;
-    //private contactListAdapter adapter;
+    private contactListAdapter adapter;
 
 
 

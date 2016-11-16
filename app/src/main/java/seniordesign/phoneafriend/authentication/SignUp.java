@@ -154,11 +154,12 @@ public class SignUp extends AppCompatActivity {
         db.child("users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Username Check Res: " , "Checking Username");
                 if(dataSnapshot.getValue()!=null){
                     //if there is a matching entry diplay error
                     Toast.makeText(SignUp.this, "Error: Username already taken", Toast.LENGTH_LONG).show();
                 }else{
-                    Log.v("Test Result: " , "DATASNAPSHOT IS NULL");
+                    Log.v("Username Check Res: " , "DATASNAPSHOT IS NULL MAKING NEW USER");
                     //if there was not, then make the new user
                     makeUser();
                 }
@@ -166,7 +167,7 @@ public class SignUp extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.d("Username Check Res: " , "CALL TO DB FAILED");
             }
         });
 
