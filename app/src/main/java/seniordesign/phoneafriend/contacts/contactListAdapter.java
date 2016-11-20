@@ -8,11 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 
 /**
@@ -65,6 +68,48 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
         //Handle buttons and add onClickListeners
         Button msgBtn = (Button) view.findViewById(R.id.msg_btn);
         Button rmvBtn = (Button) view.findViewById(R.id.rmv_btn);
+
+        rmvBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String usernameOfRemoved = values.get(position);
+
+                //We iterate through our active list until we find our matching entry, we remove the values username string
+                Iterator<Contacts> contactsIterator = PhoneAFriend.getInstance().getActiveContacts().iterator();
+                Contacts temp;
+                while (contactsIterator.hasNext()) {
+                    temp = contactsIterator.next();
+                    //check contacts where the user we are trying to remove is username2 and they are currently contacts
+                    if (temp.getUsername2().equals(values.get(position)) && temp.isU12()) {
+                        PhoneAFriend.getInstance().removeContact(values.get(position)); //remove string from display list
+                        temp.setU12(false); //change u12 value to false
+                        PhoneAFriend.getInstance().getInactiveContacts().add(temp); //add it to our inactive contacts list
+                        contactsIterator.remove(); //removes temp from active contacts
+                        db.child("Contacts").child(temp.getKey()).child("u12").setValue(false); //post change to database
+                        //possibly sort list here??
+                        notifyDataSetChanged();//notify adapter of change
+                        Toast.makeText(context, "Q1 REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
+                        return;//return because we are done
+                    }
+
+                    //check contacts where the user we are trying to remove is username1 and they are currently contacts
+                    if (temp.getUsername1().equals(values.get(position)) && temp.isU21()) {
+                        PhoneAFriend.getInstance().removeContact(values.get(position)); //remove string from display list
+                        temp.setU21(false); //change u21 value to false
+                        PhoneAFriend.getInstance().getInactiveContacts().add(temp); //add it to our inactive contacts list
+                        contactsIterator.remove(); //removes temp from active contacts
+                        db.child("Contacts").child(temp.getKey()).child("u21").setValue(false); //post change to database
+                        //possibly sort list here??
+                        notifyDataSetChanged();//notify adapter of change
+                        Toast.makeText(context, "Q2 REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
+                        return;//return because we are done
+                    }
+
+                }
+
+
+            }
+        });
 
 
         return view;
