@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.authentication.SignIn;
 import seniordesign.phoneafriend.updateSettings.updateEmail;
@@ -51,9 +52,11 @@ public class settings extends Fragment {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        /* Updating Username Section */
+        /* Updating Username Section (will not let user change username) */
 
         /* Set Up TextView which will display username Here */
+        TextView usernameText = (TextView) view.findViewById(R.id.username_text);
+        usernameText.setText(PhoneAFriend.getInstance().getUsername());
 
         /* Set Up Listener for when Section is Pressed */
         userSection = (RelativeLayout) view.findViewById(R.id.update_username);
@@ -112,7 +115,15 @@ public class settings extends Fragment {
                 }else{
                     Log.v("AuthStateChanged" , " User signed out");
                     //If we detect the user logged out, then go back to the signin screen
+                    //Clear the Contacts List of Strings First!
+                    ((PhoneAFriend) getActivity().getApplication()).clearContactList();
+                    //Clear Inactive and Active Contacts List as Well!
+                    //clear active list
+                    PhoneAFriend.getInstance().clearActive();;
+                    //clear inactive list
+                    PhoneAFriend.getInstance().clearInactive();
                     startActivity(new Intent(getActivity(), SignIn.class));
+                    getActivity().finish();
                 }
             }
         };
