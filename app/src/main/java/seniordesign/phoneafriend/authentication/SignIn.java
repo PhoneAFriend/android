@@ -26,6 +26,7 @@ import org.w3c.dom.Text;
 
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.contacts.Contacts;
 import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 
@@ -41,6 +42,7 @@ public class SignIn extends AppCompatActivity {
     private View.OnClickListener onClickListener;
     private Intent intent;
     private Toast toast;
+    private boolean waiter = false;
 
     /* Delete Later */
     private Button alexButton;
@@ -63,7 +65,8 @@ public class SignIn extends AppCompatActivity {
                 if (!emailText.getText().toString().equals("") && !passText.getText().toString().equals("")) {
                     login(emailText.getText().toString(), passText.getText().toString());
                 }else{
-                    errorText.setText("Error: No email or no password given!");
+                    //errorText.setText("Error: No email or no password given!");
+                    Toast.makeText(SignIn.this,"Error: No email or no password given!", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -124,12 +127,13 @@ public class SignIn extends AppCompatActivity {
                         Log.v("Sign in attempt : " , "Completed");
                         if(task.isSuccessful()){
                             Log.v("Sign in status:" , "Success");
-                            setAppUsername(neededEmail);
-                            startActivity(intent);
+                            setAppUsernameContactsAndGo(neededEmail);
+                            //startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
                             passText.setText("");
-                            errorText.setText("Error: Your email or password was incorrect!");
+                            //errorText.setText("Error: Your email or password was incorrect!");
+                            Toast.makeText(SignIn.this,"Error: Your email or password was incorrect!", Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -156,23 +160,24 @@ public class SignIn extends AppCompatActivity {
                                             User s = (User) u.getValue(User.class);
                                             ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
                                         }
+                                    setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
                                 }
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                    Toast.makeText(SignIn.this,"There was a problem getting dev username", Toast.LENGTH_LONG).show();
                                 }
                             });
-                            startActivity(intent);
                         }else{
                             Log.v("Sign in status:", "Failure");
+                            Toast.makeText(SignIn.this,"There was a problem signing you in, Try Again Later!", Toast.LENGTH_LONG).show();
                             passText.setText("");
                         }
                     }
                 });
     }
 
-    private void setAppUsername(String email){
+    private void setAppUsernameContactsAndGo(String email){
         db.child("users").orderByChild("useremail").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -181,14 +186,81 @@ public class SignIn extends AppCompatActivity {
                         User s = (User) u.getValue(User.class);
                         ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
                     }
+                setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(SignIn.this,"There was a problem getting you username!", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+    private void setUserContactsAndGo(final String currentUsername){
+        //Query username1 values that are equal to our currentUsername in search of contacts
+        db.child("Contacts").orderByChild("username1").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Check to see if the snapshot is null, this means there are no contacts where current user is username1
+                if (dataSnapshot != null) {
+                    //If we had data, lets find the element where u12 is true, meaning they are a contact
+                    for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                        //Create a temp user so we can grab the data and get u12
+                        Contacts temp = new Contacts(userSnap);
+                        //Lets check if username2 is a contact by checking if u12 is true
+                            if(temp.isU12()) {
+                                //This is a contact! Lets print a message for now
+                                Log.d("Contact Res ","We got one on U12! "+temp.getUsername2());
+                                ((PhoneAFriend) getApplication()).addDisplayContact(temp.getUsername2());
+                            }
+
+                    }
+                }
+                //We nest to deal with Firebase being an asynchronous beast!
+                //Therefore we wait until we've checked where username1 is the current username
+                //Query username2 values that are equal to our currentUsername in search of contacts
+                db.child("Contacts").orderByChild("username2").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Check to see if the snapshot is null, this means there are no contacts where current user is username2
+                        if (dataSnapshot != null) {
+                            //If we had data, lets find the element where u21 is true, meaning they are a contact
+                            for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
+                                //Create a temp user so we can grab the data and get u21
+                                Contacts temp = new Contacts(userSnap);
+                                //Lets check if username2 is a contact by checking if u12 is true
+                                if(temp.isU21()) {
+                                    //This user is a contact of our current user lets print a message for now
+                                    Log.d("Contact res ","We got one! on U21 "+temp.getUsername1());
+                                    ((PhoneAFriend) getApplication()).addDisplayContact(temp.getUsername1());
+                                }
+
+
+                            }
+                        }
+                        //Once we are done getting contacts, lets got to main menu!
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
+        }
     /*              */
 
 

@@ -115,6 +115,11 @@ public class settings extends Fragment {
                 }else{
                     Log.v("AuthStateChanged" , " User signed out");
                     //If we detect the user logged out, then go back to the signin screen
+                    //Clear the Contacts List of Strings First!
+                    ((PhoneAFriend) getActivity().getApplication()).clearContactList();
+                    //Clear Inactive and Active Contacts List as Well!
+                    //clear active list
+                    //clear inactive list
                     startActivity(new Intent(getActivity(), SignIn.class));
                 }
             }

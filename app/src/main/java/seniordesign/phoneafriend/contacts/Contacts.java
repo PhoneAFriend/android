@@ -1,5 +1,8 @@
 package seniordesign.phoneafriend.contacts;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.HashMap;
 
 /**
@@ -11,6 +14,7 @@ public class Contacts {
     private String username2;
     private boolean u12;
     private boolean u21;
+    private String key;
 
     public Contacts(){}
 
@@ -19,6 +23,15 @@ public class Contacts {
         this.username2 = username2;
         this.u12 = u12;
         this.u21 = u21;
+    }
+
+    public Contacts(DataSnapshot userSnap){
+        this.username1 = userSnap.child("username1").getValue().toString();
+        this.username2 = userSnap.child("username2").getValue().toString();
+        this.u12 = (boolean) userSnap.child("u12").getValue();
+        this.u21 = (boolean) userSnap.child("u21").getValue();
+        this.key = userSnap.getKey();
+
     }
 
     public String getUsername1(){
@@ -37,6 +50,10 @@ public class Contacts {
         return u21;
     }
 
+    public String getKey(){
+        return key;
+    }
+
     public void setUsername1(String username1) {
         this.username1 = username1;
     }
@@ -51,6 +68,10 @@ public class Contacts {
 
     public void setU21(boolean u21) {
         this.u21 = u21;
+    }
+
+    public void setKey(String newKey){
+        this.key = newKey;
     }
 
     public HashMap<String, Object> toMap(){

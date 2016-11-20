@@ -12,13 +12,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import seniordesign.phoneafriend.contacts.contactListAdapter;
+
 /**
  * Created by The Alex on 9/25/2016.
  */
 public class PhoneAFriend extends Application {
 
     private String username;
-    private ArrayList<String> contactList;
+    private ArrayList<String> contactDisplayList = new ArrayList<>();
+    private contactListAdapter contactAdapt; //This will mostly serve as a pointer
 
     static PhoneAFriend myAppInstance;
     public PhoneAFriend() {
@@ -35,6 +38,18 @@ public class PhoneAFriend extends Application {
         return myAppInstance;
     }
 
+    /*Dark Magic Code used to reference our contactListAdapter outside of the fragment where it is created*/
+    //We want a pointer to our adapter that will handle our contact username strings
+    public void setContactAdapt(contactListAdapter theAdapter){
+        contactAdapt = theAdapter;
+    }
+    //when we add or remove a contact, lets notify the adapter of that change
+    public void notifyContactListChange(){
+        contactAdapt.notifyDataSetChanged();
+    }
+    /*End of dark magic code*/
+
+    /* Methods for getting and Setting the String Value that contains our logged in users, username*/
     public String getUsername(){
         return username;
     }
@@ -42,27 +57,35 @@ public class PhoneAFriend extends Application {
     public void setUsername(String newUsername){
         this.username = newUsername;
     }
+    /* end of setter and getter methods for global username */
 
-    public ArrayList<String> getContactList(){
-        return contactList;
+    /*Methods For the String ArrayList used to display Contact Usernames in contacts Section */
+    //Method to get the DisplayList
+    public ArrayList<String> getContactDisplayList(){
+        return contactDisplayList;
     }
-
-    public void addContact(String contactUsername){
-        contactList.add(contactUsername);
+    //Method to add to the Display List
+    public void addDisplayContact(String contactUsername){
+        contactDisplayList.add(contactUsername);
     }
-
+    //Method to remove from the Display List
     public void removeContact(String contactUsername){
-        contactList.remove(contactUsername);
+        contactDisplayList.remove(contactUsername);
     }
-
-    public void sortContactList(){
-        Collections.sort(contactList, new Comparator<String>() {
+    //Method to sort Display List in Alphabetic order (ignore case)
+    public void sortContactDiplayList(){
+        Collections.sort(contactDisplayList, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
                 return s1.compareToIgnoreCase(s2);
             }
         });
     }
+    //Method to completely Clear the Display List
+    public void clearContactList(){
+        contactDisplayList.clear();
+    }
+    /* End of Methods for contactDisplay List */
 
     public void onDestroy(){
 

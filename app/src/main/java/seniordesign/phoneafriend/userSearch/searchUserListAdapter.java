@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.userSearch;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,13 +103,16 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
                             //If we had data, lets find the element where username2 is the user we want to add
                             for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                 //Create a temp user so we can grab the data and get the username
-                                Contacts temp = (Contacts) userSnap.getValue(Contacts.class);
+                                Contacts temp = new Contacts(userSnap);//(Contacts) userSnap.getValue(Contacts.class);
+                                Log.d("Contact Key :", temp.getKey());
                                 //if username2 matches user we want to add, and boolean value checking status is false
                                 //then change boolean flag for username1 to username2 contact status to true and push to database
                                 if (temp.getUsername2().equals(values.get(position))) {
                                     if(!temp.isU12()) {
                                         temp.setU12(true);
                                         getDb().child("Contacts").child(userSnap.getKey()).setValue(temp.toMap());
+                                        ((PhoneAFriend) context.getApplicationContext()).addDisplayContact(temp.getUsername2());
+                                        ((PhoneAFriend) context.getApplicationContext()).notifyContactListChange();
                                         Toast.makeText(context, "Q1 ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
                                         //return as we have completed adding the contact
                                         return;
@@ -134,13 +138,15 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
                                         //If we had data, lets find the element where username2 is the user we want to add
                                         for (DataSnapshot userSnap : dataSnapshot.getChildren()) {
                                             //Create a temp user so we can grab the data and get the username
-                                            Contacts temp = (Contacts) userSnap.getValue(Contacts.class);
+                                            Contacts temp = new Contacts(userSnap);//(Contacts) userSnap.getValue(Contacts.class);
                                             //if username2 matches user we want to add, and boolean value checking status is false
                                             //then change boolean flag for username1 to username2 contact status to true and push to database
                                             if(temp.getUsername1().equals(values.get(position))) {
                                                 if(!temp.isU21()) {
                                                     temp.setU21(true);
                                                     getDb().child("Contacts").child(userSnap.getKey()).setValue(temp.toMap());
+                                                    ((PhoneAFriend) context.getApplicationContext()).addDisplayContact(temp.getUsername1());
+                                                    ((PhoneAFriend) context.getApplicationContext()).notifyContactListChange();
                                                     Toast.makeText(context, "Q2 ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
                                                     //return as we have completed adding the contact
                                                     return;
@@ -158,6 +164,8 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
                                         Contacts newContact = new Contacts(currentUsername, values.get(position),true,false);
                                         String key = getDb().child("Contacts").push().getKey();
                                         getDb().child("Contacts").child(key).setValue(newContact.toMap());
+                                        ((PhoneAFriend) context.getApplicationContext()).addDisplayContact(newContact.getUsername2());
+                                        ((PhoneAFriend) context.getApplicationContext()).notifyContactListChange();
                                         Toast.makeText(context, "ADDED " + values.get(position) + " to " + "contacts", Toast.LENGTH_LONG).show();
                                         //program will end up normally returning from this point as we have done everything possible
                                         //try and add the contact
