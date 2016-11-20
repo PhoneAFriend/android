@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import seniordesign.phoneafriend.contacts.Contacts;
 import seniordesign.phoneafriend.contacts.contactListAdapter;
 
 /**
@@ -22,6 +23,8 @@ public class PhoneAFriend extends Application {
     private String username;
     private ArrayList<String> contactDisplayList = new ArrayList<>();
     private contactListAdapter contactAdapt; //This will mostly serve as a pointer
+    private ArrayList<Contacts> activeContacts = new ArrayList<>();
+    private ArrayList<Contacts> inactiveContacts = new ArrayList<>();
 
     static PhoneAFriend myAppInstance;
     public PhoneAFriend() {
@@ -86,6 +89,13 @@ public class PhoneAFriend extends Application {
         contactDisplayList.clear();
     }
     /* End of Methods for contactDisplay List */
+
+    /* Methods for using our active and inactive contact lists */
+    //get active contacts list
+    public ArrayList<Contacts> getActiveContacts(){ return activeContacts; }
+    public ArrayList<Contacts> getInactiveContacts() { return inactiveContacts; }
+    public void clearActive() { activeContacts.clear(); }
+    public void clearInactive() { inactiveContacts.clear(); }
 
     public void onDestroy(){
 

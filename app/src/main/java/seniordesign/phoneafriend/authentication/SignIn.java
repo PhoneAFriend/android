@@ -197,6 +197,10 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void setUserContactsAndGo(final String currentUsername){
+        //Clear all contact lists incase there was leftover information
+        PhoneAFriend.getInstance().clearContactList();
+        PhoneAFriend.getInstance().clearActive();
+        PhoneAFriend.getInstance().clearInactive();
         //Query username1 values that are equal to our currentUsername in search of contacts
         db.child("Contacts").orderByChild("username1").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -209,9 +213,17 @@ public class SignIn extends AppCompatActivity {
                         Contacts temp = new Contacts(userSnap);
                         //Lets check if username2 is a contact by checking if u12 is true
                             if(temp.isU12()) {
-                                //This is a contact! Lets print a message for now
+                                //This is a contact! Lets print a log message
                                 Log.d("Contact Res ","We got one on U12! "+temp.getUsername2());
+                                //add username to our display list
                                 ((PhoneAFriend) getApplication()).addDisplayContact(temp.getUsername2());
+                                //add contact to active contacts
+                                PhoneAFriend.getInstance().getActiveContacts().add(temp);
+                            }else{
+                                //if u12 was false, then they are currently not a contact, we save
+                                //this contact value into an inactive contacts list in case we want to add
+                                //them later
+                                PhoneAFriend.getInstance().getInactiveContacts().add(temp);
                             }
 
                     }
@@ -230,16 +242,25 @@ public class SignIn extends AppCompatActivity {
                                 Contacts temp = new Contacts(userSnap);
                                 //Lets check if username2 is a contact by checking if u12 is true
                                 if(temp.isU21()) {
-                                    //This user is a contact of our current user lets print a message for now
+                                    //This user is a contact of our current user lets print a log message
                                     Log.d("Contact res ","We got one! on U21 "+temp.getUsername1());
+                                    //add username to display list
                                     ((PhoneAFriend) getApplication()).addDisplayContact(temp.getUsername1());
+                                    //add contact to active list
+                                    PhoneAFriend.getInstance().getActiveContacts().add(temp);
+                                }else{
+                                    //if u21 was false add to inactive list
+                                    PhoneAFriend.getInstance().getInactiveContacts().add(temp);
                                 }
 
 
                             }
                         }
                         //Once we are done getting contacts, lets got to main menu!
+                        //sort the list first
+                        PhoneAFriend.getInstance().sortContactDiplayList();
                         startActivity(intent);
+                        finish();//finish activity so it is removed from our backstack
 
                     }
 

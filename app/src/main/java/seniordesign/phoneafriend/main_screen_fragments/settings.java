@@ -119,8 +119,11 @@ public class settings extends Fragment {
                     ((PhoneAFriend) getActivity().getApplication()).clearContactList();
                     //Clear Inactive and Active Contacts List as Well!
                     //clear active list
+                    PhoneAFriend.getInstance().clearActive();;
                     //clear inactive list
+                    PhoneAFriend.getInstance().clearInactive();
                     startActivity(new Intent(getActivity(), SignIn.class));
+                    getActivity().finish();
                 }
             }
         };
