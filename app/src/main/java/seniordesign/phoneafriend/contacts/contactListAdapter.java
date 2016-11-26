@@ -2,6 +2,7 @@ package seniordesign.phoneafriend.contacts;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
+import seniordesign.phoneafriend.messaging.NewMessageActivity;
 
 /**
  * Created by REB.
@@ -138,6 +140,14 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
             }
         });
 
+        msgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newMsg = new Intent(context, NewMessageActivity.class);
+                newMsg.putExtra("recipient",values.get(position));
+                context.startActivity(newMsg );
+            }
+        });
 
         return view;
     }
