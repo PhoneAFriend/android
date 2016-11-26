@@ -3,6 +3,7 @@ package seniordesign.phoneafriend.messaging;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -72,6 +73,7 @@ public class NewMessageActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(NewMessageActivity.this,"Message sent to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
+                                //finish();
                             }else{
                                 Toast.makeText(NewMessageActivity.this,"Unable to send message to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
                             }
@@ -90,8 +92,16 @@ public class NewMessageActivity extends AppCompatActivity {
     }
 
     public boolean fieldsVerified(){
-        //if(username_text.getText().toString().isEmpty())
-
+        if(TextUtils.isEmpty(username_text.getText())){
+            Toast.makeText(NewMessageActivity.this,"Error: recipient field is empty!",Toast.LENGTH_LONG).show();
+            return false;
+        }else if(TextUtils.isEmpty(subject_text.getText())){
+            Toast.makeText(NewMessageActivity.this,"Error: subject cannot be empty and must be less than 60 characters!",Toast.LENGTH_LONG).show();
+            return false;
+        }else if(TextUtils.isEmpty(message_content.getText())){
+            Toast.makeText(NewMessageActivity.this,"Error: Message cannot be empty and must be less than x characters!",Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         return true;
     }
