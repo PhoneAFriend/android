@@ -1,7 +1,9 @@
 package seniordesign.phoneafriend;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,11 +42,11 @@ public class main_screen extends AppCompatActivity implements ViewPager.OnPageCh
         tabHost.setup();
 
         String[] tabNames = {"Main", "Contacts", "Inbox", "Settings"};
-
+        Resources res = getResources();
         for (int i = 0; i < tabNames.length; i++) {
             TabHost.TabSpec tabSpec;
             tabSpec = tabHost.newTabSpec(tabNames[i]);
-            tabSpec.setIndicator(tabNames[i]);
+            tabSpec.setIndicator(tabNames[i], ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_save, null));
             tabSpec.setContent(new FakeContent(getApplicationContext()));
             tabHost.addTab(tabSpec);
         }

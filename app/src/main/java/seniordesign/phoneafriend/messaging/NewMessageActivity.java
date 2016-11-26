@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
@@ -35,6 +36,7 @@ public class NewMessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_message);
 
         recvExtras = getIntent().getExtras();
+        db = FirebaseDatabase.getInstance().getReference();
 
         username_text = (EditText) findViewById(R.id.username_text);
         username_text.setKeyListener(null);
@@ -73,7 +75,7 @@ public class NewMessageActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(NewMessageActivity.this,"Message sent to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
-                                //finish();
+                                finish();
                             }else{
                                 Toast.makeText(NewMessageActivity.this,"Unable to send message to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
                             }
