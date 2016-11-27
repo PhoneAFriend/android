@@ -35,14 +35,21 @@ public class NewMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message);
 
+        //Get the information saved from when we clicked the message we wanted to view
         recvExtras = getIntent().getExtras();
+        //Get a reference for the database for when we send our message
         db = FirebaseDatabase.getInstance().getReference();
 
+        //Set values for the recipient editText and subject editText if we have data for it
         username_text = (EditText) findViewById(R.id.username_text);
-        username_text.setKeyListener(null);
+        username_text.setKeyListener(null); //set recipient EditText as uneditable
         username_text.setText(recvExtras.getString("recipient"));
 
         subject_text = (EditText) findViewById(R.id.subject_text);
+        if(recvExtras.getString("subject") != null){
+            subject_text.setText("Reply:"+recvExtras.getString("subject"));
+        }
+        //Put a listener that allows us to hide the keyboard when you click on the background
         subject_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -53,6 +60,7 @@ public class NewMessageActivity extends AppCompatActivity {
         });
 
         message_content = (EditText) findViewById(R.id.message_text);
+        //Put a listener that allows us to hide the keyboard when you click on the background
         message_content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -62,26 +70,40 @@ public class NewMessageActivity extends AppCompatActivity {
             }
         });
 
+        //Find our send button and implement what to do when we click it
         send_msg = (Button) findViewById(R.id.msg_button);
         send_msg.setText("Send");
         send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Disable button so user doesn't accidently send multiple messages
+                send_msg.setClickable(false);
+                //Verify all fields are filled in
                 if(fieldsVerified()){
+                    //If all is correct, post to the database
                     String key = db.child("messages").push().getKey();
                     Message sentMsg = new Message(message_content.getText().toString(), username_text.getText().toString(), PhoneAFriend.getInstance().getUsername(), subject_text.getText().toString(), true, key);
                     db.child("messages").child(key).setValue(sentMsg.toMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+                                //Once we finish posting successfully, let the user know, and let our send button be clickable
                                 Toast.makeText(NewMessageActivity.this,"Message sent to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
+                                send_msg.setClickable(true);
+                                //finish so this activity is removed from the back stack
                                 finish();
                             }else{
+                                //If we were not succssful in posting, let the user know and let the send button be clickable again
                                 Toast.makeText(NewMessageActivity.this,"Unable to send message to "+username_text.getText().toString(),Toast.LENGTH_LONG).show();
+                                send_msg.setClickable(true);
                             }
                         }
                     });
+                }else {
+                    //If fields were incorrect, just set send button as clickable again
+                    send_msg.setClickable(true);
                 }
+
             }
         });
 
@@ -93,6 +115,7 @@ public class NewMessageActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    /*Method that checks correctness of all EditText fields that need to be filled in displays relevant error message*/
     public boolean fieldsVerified(){
         if(TextUtils.isEmpty(username_text.getText())){
             Toast.makeText(NewMessageActivity.this,"Error: recipient field is empty!",Toast.LENGTH_LONG).show();

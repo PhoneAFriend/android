@@ -14,6 +14,7 @@ import java.util.Comparator;
 
 import seniordesign.phoneafriend.contacts.Contacts;
 import seniordesign.phoneafriend.contacts.contactListAdapter;
+import seniordesign.phoneafriend.messaging.Message;
 
 /**
  * Created by The Alex on 9/25/2016.
@@ -25,6 +26,7 @@ public class PhoneAFriend extends Application {
     private contactListAdapter contactAdapt; //This will mostly serve as a pointer
     private ArrayList<Contacts> activeContacts = new ArrayList<>();
     private ArrayList<Contacts> inactiveContacts = new ArrayList<>();
+    private ArrayList<Message> receivedMessages = new ArrayList<>();
 
     static PhoneAFriend myAppInstance;
     public PhoneAFriend() {
@@ -40,17 +42,6 @@ public class PhoneAFriend extends Application {
     public static PhoneAFriend getInstance() {
         return myAppInstance;
     }
-
-    /*Dark Magic Code used to reference our contactListAdapter outside of the fragment where it is created*/
-    //We want a pointer to our adapter that will handle our contact username strings
-    public void setContactAdapt(contactListAdapter theAdapter){
-        contactAdapt = theAdapter;
-    }
-    //when we add or remove a contact, lets notify the adapter of that change
-    public void notifyContactListChange(){
-        contactAdapt.notifyDataSetChanged();
-    }
-    /*End of dark magic code*/
 
     /* Methods for getting and Setting the String Value that contains our logged in users, username*/
     public String getUsername(){
@@ -88,6 +79,18 @@ public class PhoneAFriend extends Application {
     public void clearContactList(){
         contactDisplayList.clear();
     }
+
+    /*Dark Magic Code used to reference our contactListAdapter outside of the fragment where it is created*/
+    //We want a pointer to our adapter that will handle our contact username strings
+    public void setContactAdapt(contactListAdapter theAdapter){
+        contactAdapt = theAdapter;
+    }
+    //when we add or remove a contact, lets notify the adapter of that change
+    public void notifyContactListChange(){
+        contactAdapt.notifyDataSetChanged();
+    }
+    /*End of dark magic code*/
+
     /* End of Methods for contactDisplay List */
 
     /* Methods for using our active and inactive contact lists */
@@ -96,6 +99,12 @@ public class PhoneAFriend extends Application {
     public ArrayList<Contacts> getInactiveContacts() { return inactiveContacts; }
     public void clearActive() { activeContacts.clear(); }
     public void clearInactive() { inactiveContacts.clear(); }
+
+    /* Methods for accessing received messages */
+    public ArrayList<Message> getReceivedMessages() {return receivedMessages;}
+    public void clearReceivedMessages() { receivedMessages.clear();}
+
+
 
     public void onDestroy(){
 

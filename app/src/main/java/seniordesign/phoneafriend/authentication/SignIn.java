@@ -28,6 +28,7 @@ import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.contacts.Contacts;
 import seniordesign.phoneafriend.main_screen;
+import seniordesign.phoneafriend.messaging.Message;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 
 
@@ -256,11 +257,11 @@ public class SignIn extends AppCompatActivity {
 
                             }
                         }
-                        //Once we are done getting contacts, lets got to main menu!
+                        //Once we are done getting contacts, lets get any received messages!
                         //sort the list first
                         PhoneAFriend.getInstance().sortContactDiplayList();
-                        startActivity(intent);
-                        finish();//finish activity so it is removed from our backstack
+                        //method to get received messages
+                        setReceivedMessagesAndGo(currentUsername);
 
                     }
 
@@ -282,6 +283,41 @@ public class SignIn extends AppCompatActivity {
 
 
         }
+
+    public void setReceivedMessagesAndGo(final String currentUsername){
+        //Clear the global list which stores received messages
+        PhoneAFriend.getInstance().clearReceivedMessages();
+        //Query the database based on messages where user signing in is the recipient
+        db.child("messages").orderByChild("recipientUsername").equalTo(currentUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    //If we had data, lets add it to our received messages list
+                    for (DataSnapshot dataSnap : dataSnapshot.getChildren()) {
+                        Message m = new Message(dataSnap);
+                        Log.d("New Message ","It's from "+m.getSenderUsername());
+                        //add to list
+                        PhoneAFriend.getInstance().getReceivedMessages().add(m);
+
+                    }
+                }
+                //When we finish getting all messages, got to the main menu
+                Go();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(SignIn.this,"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void Go(){
+        //Go to the main menu activity
+        startActivity(intent);
+        finish();//finish activity so it is removed from our backstack
+    }
     /*              */
 
 
