@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.userSearch;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.authentication.User;
 import seniordesign.phoneafriend.contacts.Contacts;
+import seniordesign.phoneafriend.messaging.NewMessageActivity;
 
 /**
  * Created by REB.
@@ -83,11 +85,15 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
         msgBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //do something
-                Toast.makeText(context,"MESSAGING " + values.get(position),Toast.LENGTH_LONG).show();
-                //User t = new User("123","email@lol.com",values.get(position));
-                //String key = getDb().child("TestMSG").push().getKey();
-                //getDb().child("TestMSG").child(key).setValue(values.get(position));
+                //Go to the create message activity!
+                //Toast.makeText(context,"MESSAGING " + values.get(position),Toast.LENGTH_LONG).show();
+                //Make a new intent
+                Intent newMsg = new Intent(context, NewMessageActivity.class);
+                //Put the string of the username you want to send a message into a bundle in your intent
+                newMsg.putExtra("recipient",values.get(position));
+                //Start the new message activity
+                context.startActivity(newMsg );
+
             }
         });
         addBtn.setOnClickListener(new View.OnClickListener(){

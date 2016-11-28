@@ -5,10 +5,53 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Inbox in Progress"
-        android:id="@+id/textView" />
+        android:weightSum="5">
+
+        <Button
+            android:text="View Sent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sent_msg_btn"
+            android:layout_weight="0"
+            style="@style/Widget.AppCompat.Button" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="5"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+
+        <Button
+            android:text="Refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refresh_btn"
+            android:layout_weight="0"
+            style="@style/Widget.AppCompat.Button" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/inbox_listview" />
+
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="" />
+
 </LinearLayout>
