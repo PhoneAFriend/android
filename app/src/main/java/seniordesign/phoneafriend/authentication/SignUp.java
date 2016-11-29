@@ -55,10 +55,6 @@ public class SignUp extends AppCompatActivity {
 
     public static Intent intent;
 
-    //Delete Later
-    protected Button testButton;
-    protected View.OnClickListener testClickListener;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,15 +96,6 @@ public class SignUp extends AppCompatActivity {
         };
         thisContext = this;
 
-        //Delete Later
-        testButton = (Button) findViewById(R.id.signup_test);
-        testClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //checkDuplicateUsername("TheAlex");
-            }
-        };
-        testButton.setOnClickListener(testClickListener);
     }
     @Override
     public void onStart() {
@@ -138,7 +125,7 @@ public class SignUp extends AppCompatActivity {
                 ) {
 
             Log.v("SignUP: Pass Null check", "Pass");
-            checkDuplicateandMake(nameText.getText().toString());
+            checkDuplicateandMake(nameText.getText().toString().toLowerCase());
             //makeUser();
         }
             else{
@@ -188,7 +175,7 @@ public class SignUp extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     //if creation successful, post to users on database
                                     FirebaseUser user = auth.getCurrentUser();//get current user(should be newly created user)
-                                    User thisUser = new User(user.getUid(), user.getEmail(), nameText.getText().toString());//Make new user object
+                                    User thisUser = new User(user.getUid(), user.getEmail(), nameText.getText().toString().toLowerCase());//Make new user object
                                     String key = db.child("users").push().getKey();//generate random key
                                     db.child("users").child(key).setValue(thisUser.toMap());//post to database
                                     ((PhoneAFriend) getApplication()).setUsername(thisUser.getUsername());// set up the global username var for our app

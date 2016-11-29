@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:id="@+id/settings_label"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"/>
     </RelativeLayout>
     <View
@@ -129,6 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/logout_button" />
+            android:id="@+id/logout_button"
+            android:background="@drawable/custom_button" />
     </RelativeLayout>
 </LinearLayout>

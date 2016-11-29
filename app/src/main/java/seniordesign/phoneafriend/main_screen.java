@@ -2,6 +2,7 @@ package seniordesign.phoneafriend;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,18 +42,31 @@ public class main_screen extends AppCompatActivity implements ViewPager.OnPageCh
 
         tabHost = (TabHost) findViewById(R.id.main_tabHost);
         tabHost.setup();
-
-        String[] tabNames = {"Main", "Contacts", "Inbox", "Settings"};
+        final int[] icons = new int[]{R.drawable.ic_tab_home,R.drawable.ic_tab_contacts,R.drawable.ic_tab_inbox,R.drawable.ic_tab_settings};
+        String[] tabNames = {"Home", "Contacts", "Inbox", "Settings"};
         Resources res = getResources();
         for (int i = 0; i < tabNames.length; i++) {
             TabHost.TabSpec tabSpec;
             tabSpec = tabHost.newTabSpec(tabNames[i]);
-            tabSpec.setIndicator(tabNames[i], ResourcesCompat.getDrawable(getResources(), android.R.drawable.ic_menu_save, null));
+            tabSpec.setIndicator(tabNames[i], ResourcesCompat.getDrawable(getResources(), icons[i], null));
             tabSpec.setContent(new FakeContent(getApplicationContext()));
             tabHost.addTab(tabSpec);
         }
-
+        setTabColor(tabHost);
         tabHost.setOnTabChangedListener(this);
+
+    }
+
+    public static void setTabColor(TabHost tabhost) {
+        TextView tv;
+        //Set all tab text and background colors
+        for(int i=0;i<tabhost.getTabWidget().getChildCount();i++) {
+            tabhost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#2196F3")); //set background to my_blue color (see colors res)
+            tv = (TextView) tabhost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(Color.parseColor("#FFFFFF"));//set text color to black
+        }
+        //Set the color of our selected tabs background
+        tabhost.getTabWidget().getChildAt(tabhost.getCurrentTab()).setBackgroundColor(Color.parseColor("#CDDC39"));// selected
 
     }
 
@@ -92,9 +107,9 @@ public class main_screen extends AppCompatActivity implements ViewPager.OnPageCh
 
     @Override
     public void onTabChanged(String tabId) {
+        setTabColor(tabHost);
         int selectedItem = tabHost.getCurrentTab();
         viewPager.setCurrentItem(selectedItem);
-
         HorizontalScrollView hScroll = (HorizontalScrollView) findViewById(R.id.tab_horz_scroller);
         View tabView = tabHost.getCurrentTabView();
         int scrollPos = tabView.getLeft() - (hScroll.getWidth() - tabView.getWidth()) / 2;

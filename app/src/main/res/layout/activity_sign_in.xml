@@ -7,10 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".authentication.SignIn">
+    tools:context=".authentication.SignIn"
+    android:background="@color/my_blue">
 
 
     <EditText
+        android:background="@drawable/border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
@@ -18,10 +20,13 @@
         android:id="@+id/signin_emailText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="93dp"
-        android:hint="@string/email_text"/>
+        android:layout_marginTop="175dp"
+        android:paddingLeft="10dp"
+        android:hint="@string/email_text"
+        android:textSize="24sp" />
 
     <EditText
+        android:background="@drawable/border"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
@@ -31,7 +36,9 @@
         android:layout_alignLeft="@id/signin_emailText"
         android:layout_alignStart="@id/signin_emailText"
         android:layout_marginTop="44dp"
-        android:hint="@string/password_text"/>
+        android:paddingLeft="10dp"
+        android:hint="@string/password_text"
+        android:textSize="24sp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -40,39 +47,42 @@
         android:id="@+id/login_button"
         android:layout_below="@id/signin_passwordText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_marginTop="46dp"
+        android:background="@drawable/custom_button"/>
+
+    <Button
+        android:text="Dev-In"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signin_alexIn"
+        android:layout_below="@+id/signup_link"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/wl_blue"
+        android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/signup_msg"
         android:id="@+id/signup_link"
-        android:layout_below="@id/login_button"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
-        android:onClick = "gotoSignUp"/>
+        android:onClick = "gotoSignUp"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:text="Alex-In"
+    <TextView
+        android:text="PhoneAFriend"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/signin_alexIn" />
-
-    <TextView
-        android:text=""
-        android:textColor="#ff0000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/signup_link"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:id="@+id/signin_errorText" />
+        android:layout_marginTop="88dp"
+        android:id="@+id/textView" />
 
 </RelativeLayout>

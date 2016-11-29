@@ -19,7 +19,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Message" />
+        android:text="Message"
+        android:background="@drawable/custom_blue_button" />
 
     <Button
         android:id="@+id/rmv_btn"
@@ -28,7 +29,9 @@
         android:layout_toLeftOf="@id/msg_btn"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:text="Rmv" />
+        android:text="remove"
+        android:textSize="14sp"
+        android:background="@drawable/custom_red_button" />
 
 
 

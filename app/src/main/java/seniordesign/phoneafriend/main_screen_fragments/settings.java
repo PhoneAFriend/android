@@ -133,7 +133,7 @@ public class settings extends Fragment {
     }
 
     private void changeUsername(){
-        Toast.makeText(getActivity(), "Change Username", Toast.LENGTH_LONG ).show();
+        Toast.makeText(getActivity(), "Can't Change Username... yet!", Toast.LENGTH_LONG ).show();
     }
 
     private void changeEmail(){
