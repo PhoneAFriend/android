@@ -1,5 +1,7 @@
 package seniordesign.phoneafriend.posting;
 
+import com.google.firebase.database.DataSnapshot;
+
 import java.text.CharacterIterator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,11 +13,10 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by The Alex on 9/28/2016.
+ * Created by The Alex, refined by REB.
  */
 public class Post {
     /* Attributes */
-    private String postId;
     private String questionTitle;
     private String questionText;
     private String answered;
@@ -23,76 +24,82 @@ public class Post {
     private String postedBy;
     private String subject;
     private String questionImageURL;
+    private String postKey;
 
 
     /* Constructors */
     public Post(){}
-    public Post(String questionTitle, String questionText , String postedBy , String subject){
-        postId = generatePostId();
+    public Post(String questionTitle, String questionText , String postedBy , String subject, String questionImageURL, String postKey){
         this.questionTitle = questionTitle;
         this.questionText = questionText;
         answered = "false";
-        datePosted = Calendar.getInstance().getTime().toString();
+        datePosted = "Need to configure";//Calendar.getInstance().getTime().toString();
         this.postedBy = postedBy;
         this.subject = subject;
-        questionImageURL = "Fake URL";
-    }
-    public Post(String questionTitle, String questionText , String postedBy){
-        postId = generatePostId();
-        this.questionTitle = questionTitle;
-        this.questionText = questionText;
-        answered = "false";
-        datePosted = Calendar.getInstance().getTime().toString();
-        this.postedBy = postedBy;
-        subject = "Fake Math";
-        questionImageURL = "Fake URL";
+        this.questionImageURL = questionImageURL;
+        this.postKey = postKey;
     }
 
-    /* Methods */
-    private String generatePostId(){
-        Random rand = new Random();
-        int randInt = rand.nextInt((90-65)+1) + 65;
-        char tempChar = Character.toChars(randInt)[0];
-        int one,two,three;
-        String pid = Character.toString(tempChar);
+    public Post(DataSnapshot postSnap){
+        this.questionTitle = postSnap.child("questionTitle").getValue().toString();
+        this.questionText = postSnap.child("questionText").getValue().toString();
+        this.answered = postSnap.child("answered").getValue().toString();
+        this.datePosted = postSnap.child("datePosted").getValue().toString();
+        this.postedBy = postSnap.child("postedBy").getValue().toString();
+        this.subject = postSnap.child("subject").getValue().toString();
+        this.questionImageURL = postSnap.child("questionImageURL").getValue().toString();
+    }
 
-        for(int i = 1 ; i < 19 ; i++){
-            one = rand.nextInt((90 -65)+1)+65;
-            two = rand.nextInt((57-48)+1)+48;
-            three = rand.nextInt((122-97)+1) +97;
-            randInt = rand.nextInt(3);
-            switch(randInt){
-                case 0:
-                    tempChar = Character.toChars(one)[0];
-                    break;
-                case 1:
-                    tempChar = Character.toChars(two)[0];
-                    break;
-                case 2:
-                    tempChar = Character.toChars(three)[0];
-                    break;
-            }
-            pid += Character.toString(tempChar);
-        }
-        return "-"+pid;
-    };
-    public String getPostId(){ return postId;}
     public String getQuestionTitle(){return questionTitle;}
     public String getQuestionText(){return questionText;}
     public String getPostedBy(){return postedBy;}
     public String getDatePosted(){return datePosted;}
+    public String getPostKey() { return postKey;}
+
+    public void setAnswered(String answered) {
+        this.answered = answered;
+    }
+
+    public void setDatePosted(String datePosted) {
+        this.datePosted = datePosted;
+    }
+
+    public void setPostedBy(String postedBy) {
+        this.postedBy = postedBy;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setQuestionImageURL(String questionImageURL) {
+        this.questionImageURL = questionImageURL;
+    }
+
+    public void setPostKey(String postKey) {
+        this.postKey = postKey;
+    }
+
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
     public Map<String, Object> toMap(){
         HashMap<String , Object> map = new HashMap<>();
         map.put("answered" , answered);
         map.put("datePosted" , datePosted);
-        map.put("postedBy" , "Uid : "+ postedBy);
+        map.put("postedBy", postedBy);
         map.put("questionImageURL" , questionImageURL);
         map.put("questionText" , questionText);
         map.put("questionTitle" , questionTitle);
         map.put("subject" , subject);
-
         return map;
     };
+
     public void initFromMap(HashMap<String , String> map){
         questionText = map.get("questionText");
         questionTitle = map.get("questionTitle");
