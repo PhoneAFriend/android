@@ -1,48 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_new_message"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum='3'
-    tools:context="seniordesign.phoneafriend.posting.NewPostActivity">
+    android:background="@color/my_grey"
+    tools:context="seniordesign.phoneafriend.posting.NewPostActivity"
+    android:orientation="vertical"
+    android:weightSum="7"
+    android:clickable="true"
+    android:focusableInTouchMode="true" >
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:inputType="textMultiLine"
-        android:hint="What's your question?"
-        android:id="@+id/newPostBody"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/newPostTitle"
-        android:layout_alignParentBottom="true"
-        android:gravity="top|left"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/title_container">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="Post Title"
-        android:id="@+id/newPostTitle"
-        android:layout_marginTop="101dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/newPost_postButton"
-        android:layout_toStartOf="@+id/newPost_postButton" />
+        <TextView
+            android:text="Post Title"
+            android:textColor="@color/my_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="18dp"
+            android:id="@+id/title_label"
+            android:textSize="18sp" />
+
+        <EditText
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:layout_below="@+id/title_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/newPostTitle"
+            android:textSize="18sp"
+            android:padding="5dp"
+            tools:text="hello" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/subject_container">
+
+        <TextView
+            android:text="Subject"
+            android:textColor="@color/my_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="18dp"
+            android:id="@+id/subject_label"
+            android:textSize="18sp" />
+
+        <EditText
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:layout_below="@+id/subject_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/subject_text"
+            android:textSize="18sp"
+            android:padding="5dp"
+            tools:text="hello" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:text="Content"
+            android:textColor="@color/my_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:id="@+id/textView10"
+            android:textSize="18sp" />
+
+        <EditText
+            android:gravity="top|left"
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_marginTop="5dp"
+            android:id="@+id/newPostBody"
+            android:layout_below="@+id/textView10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:text="Image Path"
+            android:textColor="@color/my_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="18dp"
+            android:id="@+id/image_label"
+            android:textSize="18sp" />
+
+        <EditText
+            android:background="@drawable/border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:layout_below="@+id/image_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/image_path_text"
+            android:textSize="18sp"
+            android:padding="5dp"
+            android:text="None" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_path_text"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/add_image"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Add Image"
+                android:background="@drawable/custom_button"/>
+
+            <Button
+                android:id="@+id/capture_image"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/add_image"
+                android:layout_marginLeft="50dp"
+                android:text="Capture Image"
+                android:background="@drawable/custom_button"/>
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <Button
-        style="?android:attr/buttonStyleSmall"
+        android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Post Question"
         android:id="@+id/newPost_postButton"
-        android:layout_above="@+id/newPostBody"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        android:layout_centerInParent="true"
+        android:background="@drawable/custom_button"/>
+    </RelativeLayout>
+
+</LinearLayout>
