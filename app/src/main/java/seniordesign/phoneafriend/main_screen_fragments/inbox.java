@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.main_screen_fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ public class inbox extends Fragment {
     private InboxListAdapter adapter;
     private DatabaseReference db;
     private Button refresh;
+    private ProgressDialog refreshProgress;
 
     @Nullable
     @Override
@@ -112,10 +114,15 @@ public class inbox extends Fragment {
             }
         });
 
+        refreshProgress = new ProgressDialog(getActivity());
+
         return v;
     }
 
     public void getReceivedMessages(final String currentUsername){
+
+        refreshProgress.setMessage("Refreshing...");
+        refreshProgress.show();
         //Clear the global list which stores received messages
         PhoneAFriend.getInstance().clearReceivedMessages();
         //Query the database based on messages where user signing in is the recipient
@@ -135,6 +142,7 @@ public class inbox extends Fragment {
                 //When we finish getting all messages, tell the adapter!
                 adapter.notifyDataSetChanged();
                 //Give a message so user knows refresh is complete
+                refreshProgress.hide();
                 Toast.makeText(getActivity(),"Messages have been refreshed!", Toast.LENGTH_LONG).show();
 
                 //Also set refresh as clickable again
@@ -146,6 +154,7 @@ public class inbox extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //If we could not get the messages, display error an set refresh button as clickable again
+                refreshProgress.hide();
                 Toast.makeText(getActivity(),"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
                 refresh.setClickable(true);
             }

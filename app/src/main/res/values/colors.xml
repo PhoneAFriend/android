@@ -5,4 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="wl_blue">#2878ff</color>
     <color name="white">#FFFFFF</color>
+
+    <!-- Colors for our custom green button -->
+    <color name="my_blue">#2196F3</color>
+    <color name="my_green">#CDDC39</color>
+    <color name="my_grey">#F1F1F1</color>
+
 </resources>

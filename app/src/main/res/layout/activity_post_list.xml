@@ -11,14 +11,14 @@
     android:weightSum="1">
 
     <TextView
-        android:text="Question Posts"
+        android:text="Search Questions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/postList_titleView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:gravity="center"
-        android:textSize="42dp"/>
+        android:textSize="35dp"/>
 
     <Button
         android:text="New Post"

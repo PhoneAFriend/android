@@ -1,5 +1,6 @@
 package seniordesign.phoneafriend.authentication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -38,12 +39,11 @@ public class SignIn extends AppCompatActivity {
     private DatabaseReference db;
     private EditText emailText;
     private EditText passText;
-    private TextView errorText;
     private Button button;
     private View.OnClickListener onClickListener;
     private Intent intent;
     private Toast toast;
-    private boolean waiter = false;
+    private ProgressDialog myDialog;
 
     /* Delete Later */
     private Button alexButton;
@@ -53,12 +53,11 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
+        myDialog = new ProgressDialog(this);
         db = FirebaseDatabase.getInstance().getReference();
         emailText = (EditText) findViewById(R.id.signin_emailText);
         passText = (EditText) findViewById(R.id.signin_passwordText);
         intent = new Intent(this, main_screen.class);
-        errorText = (TextView) findViewById(R.id.signin_errorText);
         button = (Button) findViewById(R.id.login_button);
         onClickListener = new View.OnClickListener() {
             @Override
@@ -66,7 +65,6 @@ public class SignIn extends AppCompatActivity {
                 if (!emailText.getText().toString().equals("") && !passText.getText().toString().equals("")) {
                     login(emailText.getText().toString(), passText.getText().toString());
                 }else{
-                    //errorText.setText("Error: No email or no password given!");
                     Toast.makeText(SignIn.this,"Error: No email or no password given!", Toast.LENGTH_LONG).show();
                 }
 
@@ -133,9 +131,7 @@ public class SignIn extends AppCompatActivity {
                         }else{
                             Log.v("Sign in status:", "Failure");
                             passText.setText("");
-                            //errorText.setText("Error: Your email or password was incorrect!");
                             Toast.makeText(SignIn.this,"Error: Your email or password was incorrect!", Toast.LENGTH_LONG).show();
-
                         }
                     }
                 });
@@ -145,7 +141,9 @@ public class SignIn extends AppCompatActivity {
     private void alexIn(){
 
 
-
+        myDialog.setMessage("Getting Username...");
+        myDialog.setCancelable(false);
+        myDialog.show();
         auth.signInWithEmailAndPassword("barahonaraul@live.com" , "password123" )
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -179,6 +177,9 @@ public class SignIn extends AppCompatActivity {
     }
 
     private void setAppUsernameContactsAndGo(String email){
+        myDialog.setMessage("Getting Username...");
+        myDialog.setCancelable(false);
+        myDialog.show();
         db.child("users").orderByChild("useremail").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -192,12 +193,14 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                myDialog.hide();
                 Toast.makeText(SignIn.this,"There was a problem getting you username!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void setUserContactsAndGo(final String currentUsername){
+        myDialog.setMessage("Getting Contacts...");
         //Clear all contact lists incase there was leftover information
         PhoneAFriend.getInstance().clearContactList();
         PhoneAFriend.getInstance().clearActive();
@@ -267,6 +270,7 @@ public class SignIn extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                        myDialog.hide();
                         Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -275,6 +279,7 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                myDialog.hide();
                 Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
             }
         });
@@ -285,6 +290,7 @@ public class SignIn extends AppCompatActivity {
         }
 
     public void setReceivedMessagesAndGo(final String currentUsername){
+        myDialog.setMessage("Getting your messages...");
         //Clear the global list which stores received messages
         PhoneAFriend.getInstance().clearReceivedMessages();
         //Query the database based on messages where user signing in is the recipient
@@ -308,6 +314,7 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                myDialog.hide();
                 Toast.makeText(SignIn.this,"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
             }
         });
@@ -315,6 +322,7 @@ public class SignIn extends AppCompatActivity {
 
     public void Go(){
         //Go to the main menu activity
+        myDialog.hide();
         startActivity(intent);
         finish();//finish activity so it is removed from our backstack
     }

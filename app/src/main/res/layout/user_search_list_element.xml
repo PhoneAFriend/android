@@ -19,7 +19,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Message" />
+        android:text="Message"
+        android:background="@drawable/custom_blue_button" />
 
     <Button
         android:id="@+id/add_btn"
@@ -28,7 +29,8 @@
         android:layout_toLeftOf="@id/msg_btn"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:text="Add" />
+        android:text="Add"
+        android:background="@drawable/custom_button" />
 
 
 

@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/my_grey"
     tools:context="seniordesign.phoneafriend.messaging.NewMessageActivity"
     android:orientation="vertical"
     android:weightSum="5"
@@ -23,7 +23,7 @@
 
         <TextView
             android:text="Recipient"
-            android:textColor="@color/white"
+            android:textColor="@color/my_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -34,7 +34,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:background="@color/white"
+            android:background="@drawable/border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
@@ -44,7 +44,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/username_text"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:padding="10dp" />
 
     </RelativeLayout>
 
@@ -55,7 +56,7 @@
 
         <TextView
             android:text="Subject"
-            android:textColor="@color/white"
+            android:textColor="@color/my_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -66,7 +67,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:background="@color/white"
+            android:background="@drawable/border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -76,7 +77,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:id="@+id/subject_text"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:padding="10dp" />
 
     </RelativeLayout>
 
@@ -87,7 +89,7 @@
 
         <TextView
             android:text="Content"
-            android:textColor="@color/white"
+            android:textColor="@color/my_blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -99,7 +101,7 @@
 
         <EditText
             android:gravity="top|left"
-            android:background="@color/white"
+            android:background="@drawable/border"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
@@ -109,7 +111,8 @@
             android:layout_below="@+id/textView10"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:padding="10dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -119,6 +122,7 @@
 
         <Button
             android:text="Button"
+            android:background="@drawable/custom_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
