@@ -3,6 +3,9 @@ package seniordesign.phoneafriend.posting;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import seniordesign.phoneafriend.Manifest;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.messaging.NewMessageActivity;
 
@@ -34,7 +38,9 @@ public class NewPostActivity extends AppCompatActivity {
     private View.OnClickListener onClickListener;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
-    private NumberPicker picker;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int GALLERY_REQUEST_CODE = 2;
+
     private final String[] subjects = {"Math", "Science", "Computer Science", "Writing", "Other" };
 
     @Override
@@ -67,8 +73,25 @@ public class NewPostActivity extends AppCompatActivity {
 
         //Get the image buttons
         captureButton = (Button) findViewById(R.id.capture_image);
+        captureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,CAMERA_REQUEST_CODE);
+            }
+        });
 
         addButton = (Button) findViewById(R.id.add_image);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), GALLERY_REQUEST_CODE);
+            }
+        });
 
         //Get the post button and set its listeners
         postButton = (Button) findViewById(R.id.newPost_postButton);
@@ -88,8 +111,25 @@ public class NewPostActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+            Uri captureUri = data.getData();
+            Toast.makeText(NewPostActivity.this,"well then " + captureUri.toString(),Toast.LENGTH_LONG).show();
+        }
+
+        if(requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK ){
+            Uri captureUri = data.getData();
+            Toast.makeText(NewPostActivity.this,"2 well then " + captureUri.toString(),Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void submitPost(){
-        Toast.makeText(NewPostActivity.this,"well then" + subjectText.getText(),Toast.LENGTH_LONG).show();
+        String key = db.child("posts").push().getKey();
+        Toast.makeText(NewPostActivity.this,"well then " + subjectText.getText()+" "+key,Toast.LENGTH_LONG).show();
+
         /*
         if(!titleText.getText().toString().matches("") || !bodyText.getText().toString().matches("")){
             Post post = new Post(titleText.getText().toString() , bodyText.getText().toString() , currentUser.getUid().toString());
