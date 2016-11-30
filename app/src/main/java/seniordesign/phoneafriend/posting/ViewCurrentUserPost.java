@@ -65,6 +65,7 @@ public class ViewCurrentUserPost extends AppCompatActivity {
         imageUrl = recvExtras.getString("questionImageURL");
         System.out.println(imageUrl);
 
+        /* Code for the delete button */
         delete_button = (Button) findViewById(R.id.first_button);
         delete_button.setVisibility(View.VISIBLE);
         delete_button.setBackgroundResource(R.drawable.custom_red_button);
@@ -94,7 +95,7 @@ public class ViewCurrentUserPost extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button delete the message
+                        //Yes button, toggle the answered value of the post
                         toggleAnswered();
                         break;
 
@@ -105,8 +106,9 @@ public class ViewCurrentUserPost extends AppCompatActivity {
             }
         };
 
-        answered = recvExtras.getString("answered");
+        answered = recvExtras.getString("answered");//get the value for the posts answered field
         answer_button = (Button) findViewById(R.id.second_button);
+        //Depending on the posts value for answered, have the set button display the correct text
         if(answered.equals("true")){
             setAnsStr = "Unanswered";
             answer_button.setText("Set Unanswered");
@@ -133,7 +135,7 @@ public class ViewCurrentUserPost extends AppCompatActivity {
                 if(imageUrl.equals("None")){
                     Toast.makeText(ViewCurrentUserPost.this,"This question does not have an image!",Toast.LENGTH_LONG).show();
                 }else {
-                    //Make an intent to view the image
+                    //Make an intent to view the image, send the image url with the activity
                     Intent viewImage = new Intent(getApplicationContext(), viewPostImage.class);
                     viewImage.putExtra("imageURL", imageUrl);
                     startActivity(viewImage);
@@ -141,6 +143,7 @@ public class ViewCurrentUserPost extends AppCompatActivity {
             }
         });
 
+        //If we don't have a valid imageURL hide the view image button
         if(imageUrl.equals("None")){
             imageButton.setVisibility(View.GONE);
         }
