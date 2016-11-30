@@ -33,7 +33,8 @@
         <activity android:name=".updateSettings.updatePassword" />
         <activity android:name=".userSearch.searchUsers" />
         <activity android:name=".messaging.NewMessageActivity" />
-        <activity android:name=".messaging.ViewMessage"></activity>
+        <activity android:name=".messaging.ViewMessage" />
+        <activity android:name=".posting.viewPostImage"></activity>
     </application>
 
 </manifest>

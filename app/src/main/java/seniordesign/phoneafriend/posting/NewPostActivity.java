@@ -2,19 +2,15 @@ package seniordesign.phoneafriend.posting;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewGroupCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -32,10 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import seniordesign.phoneafriend.Manifest;
 import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
-import seniordesign.phoneafriend.messaging.NewMessageActivity;
 
 public class NewPostActivity extends AppCompatActivity {
 
@@ -177,13 +171,13 @@ public class NewPostActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            //On success, hide dialog, diplay a message, and finish activity
-                            myProgress.hide();
+                            //On success, dismiss dialog, diplay a message, and finish activity
+                            myProgress.dismiss();
                             Toast.makeText(NewPostActivity.this,"Question has been posted!",Toast.LENGTH_LONG).show();
                             finish();
                         }else{
-                            //On failure, stop spinner and display error
-                            myProgress.hide();
+                            //On failure, dismiss dialog and display error
+                            myProgress.dismiss();
                             Toast.makeText(NewPostActivity.this,"Error: Unable to post question,try again later!",Toast.LENGTH_LONG).show();
                         }
                     }
@@ -207,11 +201,11 @@ public class NewPostActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    myProgress.hide();
+                                    myProgress.dismiss();
                                     Toast.makeText(NewPostActivity.this,"Question has been posted!",Toast.LENGTH_LONG).show();
                                     finish();
                                 }else{
-                                    myProgress.hide();
+                                    myProgress.dismiss();
                                     Toast.makeText(NewPostActivity.this,"Error: Unable to post question,try again later!",Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -222,7 +216,7 @@ public class NewPostActivity extends AppCompatActivity {
                 }).addOnFailureListener(NewPostActivity.this, new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        myProgress.hide();
+                        myProgress.dismiss();
                         Toast.makeText(NewPostActivity.this,"Error: Unable to upload post image! Try again later, or remove image!",Toast.LENGTH_LONG).show();
                     }
                 });

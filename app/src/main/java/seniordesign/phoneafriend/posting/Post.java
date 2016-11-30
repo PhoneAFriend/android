@@ -48,12 +48,15 @@ public class Post {
         this.postedBy = postSnap.child("postedBy").getValue().toString();
         this.subject = postSnap.child("subject").getValue().toString();
         this.questionImageURL = postSnap.child("questionImageURL").getValue().toString();
+        this.postKey = postSnap.getKey();
     }
 
     public String getQuestionTitle(){return questionTitle;}
     public String getQuestionText(){return questionText;}
     public String getPostedBy(){return postedBy;}
     public String getDatePosted(){return datePosted;}
+    public String getQuestionImageURL() { return questionImageURL;}
+    public String getSubject() { return subject;}
     public String getPostKey() { return postKey;}
 
     public void setAnswered(String answered) {

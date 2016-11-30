@@ -142,7 +142,7 @@ public class inbox extends Fragment {
                 //When we finish getting all messages, tell the adapter!
                 adapter.notifyDataSetChanged();
                 //Give a message so user knows refresh is complete
-                refreshProgress.hide();
+                refreshProgress.dismiss();
                 Toast.makeText(getActivity(),"Messages have been refreshed!", Toast.LENGTH_LONG).show();
 
                 //Also set refresh as clickable again
@@ -154,7 +154,7 @@ public class inbox extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //If we could not get the messages, display error an set refresh button as clickable again
-                refreshProgress.hide();
+                refreshProgress.dismiss();
                 Toast.makeText(getActivity(),"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
                 refresh.setClickable(true);
             }

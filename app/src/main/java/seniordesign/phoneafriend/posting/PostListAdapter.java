@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import seniordesign.phoneafriend.R;
 
 /**
@@ -17,9 +19,9 @@ import seniordesign.phoneafriend.R;
 
 public class PostListAdapter extends ArrayAdapter<Post> {
     private Context context;
-    private Post[] values;
+    private ArrayList<Post> values = new ArrayList<>();
 
-    public PostListAdapter(Context context , Post [] values){
+    public PostListAdapter(Context context , ArrayList<Post> values){
         super(context , -1 , values);
         this.context = context;
         this.values = values;
@@ -34,9 +36,9 @@ public class PostListAdapter extends ArrayAdapter<Post> {
         TextView postedBy = (TextView) elementView.findViewById(R.id.postListElement_authorText);
         TextView datePosted = (TextView) elementView.findViewById(R.id.postListElement_dateText);
 
-        questionTitle.setText(values[position].getQuestionTitle());
-        postedBy.setText("By: "+ values[position].getPostedBy());
-        datePosted.setText("On: " + values[position].getDatePosted());
+        questionTitle.setText(values.get(position).getQuestionTitle());
+        postedBy.setText("By: "+ values.get(position).getPostedBy());
+        datePosted.setText("On: " + values.get(position).getDatePosted());
 
 
         return elementView;
