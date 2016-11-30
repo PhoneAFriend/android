@@ -121,10 +121,12 @@ public class NewMessageActivity extends AppCompatActivity {
             Toast.makeText(NewMessageActivity.this,"Error: recipient field is empty!",Toast.LENGTH_LONG).show();
             return false;
         }else if(TextUtils.isEmpty(subject_text.getText())){
-            Toast.makeText(NewMessageActivity.this,"Error: subject cannot be empty and must be less than 60 characters!",Toast.LENGTH_LONG).show();
+            Toast.makeText(NewMessageActivity.this,"Error: subject cannot be empty!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(NewMessageActivity.this,"Error: subject cannot be empty and must be less than 60 characters!",Toast.LENGTH_LONG).show();
             return false;
         }else if(TextUtils.isEmpty(message_content.getText())){
-            Toast.makeText(NewMessageActivity.this,"Error: Message cannot be empty and must be less than x characters!",Toast.LENGTH_LONG).show();
+            Toast.makeText(NewMessageActivity.this,"Error: Message cannot be empty!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(NewMessageActivity.this,"Error: Message cannot be empty and must be less than x characters!",Toast.LENGTH_LONG).show();
             return false;
         }
 
