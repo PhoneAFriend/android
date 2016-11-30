@@ -14,6 +14,7 @@ import java.util.Comparator;
 
 import seniordesign.phoneafriend.contacts.Contacts;
 import seniordesign.phoneafriend.contacts.contactListAdapter;
+import seniordesign.phoneafriend.messaging.InboxListAdapter;
 import seniordesign.phoneafriend.messaging.Message;
 
 /**
@@ -25,6 +26,7 @@ public class PhoneAFriend extends Application {
     private String userKey;
     private ArrayList<String> contactDisplayList = new ArrayList<>();
     private contactListAdapter contactAdapt; //This will mostly serve as a pointer
+    private InboxListAdapter inboxAdapt;    //another pointer
     private ArrayList<Contacts> activeContacts = new ArrayList<>();
     private ArrayList<Contacts> inactiveContacts = new ArrayList<>();
     private ArrayList<Message> receivedMessages = new ArrayList<>();
@@ -84,14 +86,16 @@ public class PhoneAFriend extends Application {
     }
 
     /*Dark Magic Code used to reference our contactListAdapter outside of the fragment where it is created*/
-    //We want a pointer to our adapter that will handle our contact username strings
+    //We want a pointer to our adapter that will handle our contact username strings, also there is an adapter for messages
     public void setContactAdapt(contactListAdapter theAdapter){
         contactAdapt = theAdapter;
     }
+    public void setInboxAdapt( InboxListAdapter theAdapter) { inboxAdapt = theAdapter; }
     //when we add or remove a contact, lets notify the adapter of that change
     public void notifyContactListChange(){
         contactAdapt.notifyDataSetChanged();
     }
+    public void notifyInboxListChange() {inboxAdapt.notifyDataSetChanged();}
     /*End of dark magic code*/
 
     /* End of Methods for contactDisplay List */

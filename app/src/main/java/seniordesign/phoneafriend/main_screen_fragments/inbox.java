@@ -59,6 +59,7 @@ public class inbox extends Fragment {
         inboxListView.setEmptyView(emptyText);
 
         adapter = new InboxListAdapter(getActivity(), PhoneAFriend.getInstance().getReceivedMessages());
+        PhoneAFriend.getInstance().setInboxAdapt(adapter);
         inboxListView.setAdapter(adapter);
 
         inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,6 +83,7 @@ public class inbox extends Fragment {
                                 viewMessageIntent.putExtra("senderUsername",thisMsg.getSenderUsername());
                                 viewMessageIntent.putExtra("subject",thisMsg.getSubject());
                                 viewMessageIntent.putExtra("message",thisMsg.getMessage());
+                                viewMessageIntent.putExtra("key",thisMsg.getKey());
                                 //notify a change to the adapter since our unread value is now false
                                 adapter.notifyDataSetChanged();
                                 //open activity to view message
@@ -97,6 +99,7 @@ public class inbox extends Fragment {
                     viewMessageIntent.putExtra("senderUsername",thisMsg.getSenderUsername());
                     viewMessageIntent.putExtra("subject",thisMsg.getSubject());
                     viewMessageIntent.putExtra("message",thisMsg.getMessage());
+                    viewMessageIntent.putExtra("key",thisMsg.getKey());
                     startActivity(viewMessageIntent);
 
                 }
