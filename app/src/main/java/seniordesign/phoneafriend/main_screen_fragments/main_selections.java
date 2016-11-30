@@ -13,6 +13,7 @@ import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 import seniordesign.phoneafriend.posting.PostListActivity;
+import seniordesign.phoneafriend.posting.currentUserPostsList;
 import seniordesign.phoneafriend.userSearch.searchUsers;
 
 public class main_selections extends Fragment {
@@ -50,6 +51,14 @@ public class main_selections extends Fragment {
             }
         };
         searchButton.setOnClickListener(searchUserClickListener);
+
+        Button myPostButton = (Button) view.findViewById(R.id.button4);
+        myPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),currentUserPostsList.class));
+            }
+        });
 
         return view;
     }

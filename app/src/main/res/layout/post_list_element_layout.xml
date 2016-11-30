@@ -16,7 +16,7 @@
     <TextView
         android:text=""
         android:layout_height="wrap_content"
-        android:id="@+id/postListElement_dateText"
+        android:id="@+id/postListElement_answeredText"
         android:layout_below="@+id/postListElement_questionTitle"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -32,5 +32,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_width="185dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/postList_subject"
+        android:layout_below="@+id/postListElement_authorText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"/>
 
 </RelativeLayout>

@@ -57,6 +57,7 @@ public class Post {
     public String getDatePosted(){return datePosted;}
     public String getQuestionImageURL() { return questionImageURL;}
     public String getSubject() { return subject;}
+    public String getAnswered() { return answered;}
     public String getPostKey() { return postKey;}
 
     public void setAnswered(String answered) {

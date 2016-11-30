@@ -34,7 +34,9 @@
         <activity android:name=".userSearch.searchUsers" />
         <activity android:name=".messaging.NewMessageActivity" />
         <activity android:name=".messaging.ViewMessage" />
-        <activity android:name=".posting.viewPostImage"></activity>
+        <activity android:name=".posting.viewPostImage" />
+        <activity android:name=".posting.currentUserPostsList" />
+        <activity android:name=".posting.ViewCurrentUserPost"></activity>
     </application>
 
 </manifest>
