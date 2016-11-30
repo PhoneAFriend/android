@@ -158,6 +158,7 @@ public class SignIn extends AppCompatActivity {
                                         for (DataSnapshot u : dataSnapshot.getChildren()){
                                             User s = (User) u.getValue(User.class);
                                             ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                                            PhoneAFriend.getInstance().setUserKey(u.getKey());
                                         }
                                     setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
                                 }
@@ -169,6 +170,7 @@ public class SignIn extends AppCompatActivity {
                             });
                         }else{
                             Log.v("Sign in status:", "Failure");
+                            myDialog.dismiss();
                             Toast.makeText(SignIn.this,"There was a problem signing you in, Try Again Later!", Toast.LENGTH_LONG).show();
                             passText.setText("");
                         }
@@ -187,6 +189,7 @@ public class SignIn extends AppCompatActivity {
                     for (DataSnapshot u : dataSnapshot.getChildren()){
                         User s = (User) u.getValue(User.class);
                         ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                        PhoneAFriend.getInstance().setUserKey(u.getKey());
                     }
                 setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
             }

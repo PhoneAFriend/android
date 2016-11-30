@@ -22,6 +22,7 @@ import seniordesign.phoneafriend.messaging.Message;
 public class PhoneAFriend extends Application {
 
     private String username;
+    private String userKey;
     private ArrayList<String> contactDisplayList = new ArrayList<>();
     private contactListAdapter contactAdapt; //This will mostly serve as a pointer
     private ArrayList<Contacts> activeContacts = new ArrayList<>();
@@ -47,10 +48,12 @@ public class PhoneAFriend extends Application {
     public String getUsername(){
         return username;
     }
+    public String getUserKey() {return userKey;}
 
     public void setUsername(String newUsername){
         this.username = newUsername;
     }
+    public void setUserKey(String key) {this.userKey = key; }
     /* end of setter and getter methods for global username */
 
     /*Methods For the String ArrayList used to display Contact Usernames in contacts Section */

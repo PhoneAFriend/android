@@ -74,7 +74,7 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
                 db.child("Contacts").child(temp.getKey()).child("u12").setValue(false); //post change to database
                 //possibly sort list here??
                 notifyDataSetChanged();//notify adapter of change
-                Toast.makeText(context, "Q1 REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
                 return;//return because we are done
             }
 
@@ -87,7 +87,7 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
                 db.child("Contacts").child(temp.getKey()).child("u21").setValue(false); //post change to database
                 //possibly sort list here??
                 notifyDataSetChanged();//notify adapter of change
-                Toast.makeText(context, "Q2 REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "REMOVED " + usernameOfRemoved + " from contacts!", Toast.LENGTH_LONG).show();
                 return;//return because we are done
             }
 
