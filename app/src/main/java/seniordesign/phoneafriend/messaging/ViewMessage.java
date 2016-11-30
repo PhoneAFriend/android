@@ -87,7 +87,7 @@ public class ViewMessage extends AppCompatActivity {
             }
         });
 
-        //Create a dialog interface which will ask the user if they really want to remove a contact
+        //Create a dialog interface which will ask the user if they really want to remove a message
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

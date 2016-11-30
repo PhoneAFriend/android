@@ -1,7 +1,9 @@
 package seniordesign.phoneafriend.posting;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +35,7 @@ public class ViewCurrentUserPost extends AppCompatActivity {
     private Button answer_button;
     private Bundle recvExtras;
     private String answered;
+    private String setAnsStr;
     private DatabaseReference db;
 
 
@@ -85,26 +88,40 @@ public class ViewCurrentUserPost extends AppCompatActivity {
             }
         });
 
+        //Create a dialog interface which will ask the user if they really want to remove a message
+        final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button delete the message
+                        toggleAnswered();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked do nothing
+                        break;
+                }
+            }
+        };
+
         answered = recvExtras.getString("answered");
         answer_button = (Button) findViewById(R.id.second_button);
         if(answered.equals("true")){
+            setAnsStr = "Unanswered";
             answer_button.setText("Set Unanswered");
         }else {
+            setAnsStr = "Answered";
             answer_button.setText("Set Answered");
         }
 
         answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(answered.equals("true")){
-                    db.child("posts").child(recvExtras.getString("key")).child("answered").setValue("false");
-                    answer_button.setText("Set Answered");
-                    answered = "false";
-                }else {
-                    db.child("posts").child(recvExtras.getString("key")).child("answered").setValue("true");
-                    answer_button.setText("Set Unanswered");
-                    answered = "true";
-                }
+                //Create the Alert Dialog and Show it! If the user presses remove button on a contact
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewCurrentUserPost.this);
+                builder.setMessage("Are you sure you want to set post as "+setAnsStr+"?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
 
@@ -128,6 +145,36 @@ public class ViewCurrentUserPost extends AppCompatActivity {
             imageButton.setVisibility(View.GONE);
         }
 
+    }
+
+    public void toggleAnswered(){
+
+        //Based on if post was answered or no before, we toggle its value
+        //We check to see that we could send update to the database, if we could
+        //We finish and go back to our list, else we display a message
+        if(answered.equals("true")){
+            db.child("posts").child(recvExtras.getString("key")).child("answered").setValue("false").addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        finish();
+                    }else{
+                        Toast.makeText(ViewCurrentUserPost.this,"Unable to set as unanswered, try again later...",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }else {
+            db.child("posts").child(recvExtras.getString("key")).child("answered").setValue("true").addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        finish();
+                    }else{
+                        Toast.makeText(ViewCurrentUserPost.this,"Unable to set as Answered, try again later...",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
     }
 
     /*public void deleteStoredImage(String Url){
