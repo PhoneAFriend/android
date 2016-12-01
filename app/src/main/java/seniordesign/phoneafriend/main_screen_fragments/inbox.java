@@ -59,7 +59,7 @@ public class inbox extends Fragment {
         inboxListView.setEmptyView(emptyText);
 
         adapter = new InboxListAdapter(getActivity(), PhoneAFriend.getInstance().getReceivedMessages());
-        PhoneAFriend.getInstance().setInboxAdapt(adapter);
+        //PhoneAFriend.getInstance().setInboxAdapt(adapter);//not needed we renotifydatasetchange on resume
         inboxListView.setAdapter(adapter);
 
         inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,7 +138,7 @@ public class inbox extends Fragment {
                         Message m = new Message(dataSnap);
                         Log.d("New Message ","It's from "+m.getSenderUsername());
                         //add to list
-                        PhoneAFriend.getInstance().getReceivedMessages().add(m);
+                        PhoneAFriend.getInstance().getReceivedMessages().add(0,m);
 
                     }
                 }
@@ -162,5 +162,11 @@ public class inbox extends Fragment {
                 refresh.setClickable(true);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

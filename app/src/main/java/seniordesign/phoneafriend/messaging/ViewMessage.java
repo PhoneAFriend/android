@@ -122,6 +122,7 @@ public class ViewMessage extends AppCompatActivity {
     }
 
     public void removeMessage(String key){
+        //printMessageTitles();
         //Toast.makeText(ViewMessage.this,"Key "+key,Toast.LENGTH_LONG).show();
         //System.out.println("Message Count before "+PhoneAFriend.getInstance().getReceivedMessages().size());
         final Iterator<Message> messageIterator = PhoneAFriend.getInstance().getReceivedMessages().iterator();
@@ -129,13 +130,17 @@ public class ViewMessage extends AppCompatActivity {
         while(messageIterator.hasNext()){
             temp = messageIterator.next();
             if(temp.getKey().equals(key)){
+                messageIterator.remove();
              db.child("messages").child(key).setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
                  @Override
                  public void onComplete(@NonNull Task<Void> task) {
                      if(task.isSuccessful()){
-                         messageIterator.remove();
+                         //messageIterator.remove();
+                         //Some Debug Statements
+                         //printMessageTitles();
                          //System.out.println("Message Count "+PhoneAFriend.getInstance().getReceivedMessages().size());
-                         PhoneAFriend.getInstance().notifyInboxListChange();
+                         //PhoneAFriend.getInstance().notifyInboxListChange(); //Not needed if we do notifychange on resume for inbox activity
+                         //Call finish to go back to the inbox
                          finish();
                      }else{
                          //System.out.println("Message Count "+PhoneAFriend.getInstance().getReceivedMessages().size());
@@ -144,6 +149,15 @@ public class ViewMessage extends AppCompatActivity {
                  }
              });
             }
+        }
+    }
+
+    public void printMessageTitles(){
+        final Iterator<Message> messageIterator = PhoneAFriend.getInstance().getReceivedMessages().iterator();
+        Message t;
+        while(messageIterator.hasNext()){
+            t = messageIterator.next();
+            System.out.println("Title is "+t.getSubject());
         }
     }
 
