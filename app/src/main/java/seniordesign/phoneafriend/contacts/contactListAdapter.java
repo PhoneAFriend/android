@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,8 +108,8 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
         listItemText.setText(values.get(position));
 
         //Handle buttons and add onClickListeners
-        Button msgBtn = (Button) view.findViewById(R.id.msg_btn);
-        Button rmvBtn = (Button) view.findViewById(R.id.rmv_btn);
+        ImageButton msgBtn = (ImageButton) view.findViewById(R.id.msg_btn);
+        ImageButton rmvBtn = (ImageButton) view.findViewById(R.id.rmv_btn);
 
         //Create a dialog interface which will ask the user if they really want to remove a contact
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

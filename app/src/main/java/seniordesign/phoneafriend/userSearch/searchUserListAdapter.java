@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -79,8 +80,8 @@ public class searchUserListAdapter extends BaseAdapter implements ListAdapter {
         listItemText.setText(values.get(position));
 
         //Handle buttons and add onClickListeners
-        Button msgBtn = (Button)view.findViewById(R.id.msg_btn);
-        Button addBtn = (Button)view.findViewById(R.id.add_btn);
+        ImageButton msgBtn = (ImageButton)view.findViewById(R.id.msg_btn);
+        ImageButton addBtn = (ImageButton)view.findViewById(R.id.add_btn);
 
         msgBtn.setOnClickListener(new View.OnClickListener(){
             @Override
