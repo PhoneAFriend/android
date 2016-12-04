@@ -12,26 +12,39 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <Button
+    <!--<Button
         android:id="@+id/msg_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="Message"
-        android:background="@drawable/custom_blue_button" />
+        android:text=""
+        android:drawableEnd="@drawable/ic_tab_inbox"
+        android:drawableRight="@drawable/ic_tab_inbox"
+        android:background="@drawable/custom_blue_button" />-->
 
-    <Button
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:id="@+id/msg_btn"
+        android:src="@drawable/ic_tab_inbox"
+        android:background="@drawable/custom_blue_button"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+    <ImageButton
         android:id="@+id/rmv_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/msg_btn"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:text="remove"
-        android:textSize="14sp"
-        android:background="@drawable/custom_red_button" />
+        android:layout_marginRight="0dp"
+        android:background="@drawable/custom_red_button"
+        android:src="@drawable/ic_button_delete"/>
+    <!--android:text="remove"
+        android:textSize="14sp"-->
 
 
 

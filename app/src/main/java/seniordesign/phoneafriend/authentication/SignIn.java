@@ -158,6 +158,7 @@ public class SignIn extends AppCompatActivity {
                                         for (DataSnapshot u : dataSnapshot.getChildren()){
                                             User s = (User) u.getValue(User.class);
                                             ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                                            PhoneAFriend.getInstance().setUserKey(u.getKey());
                                         }
                                     setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
                                 }
@@ -169,6 +170,7 @@ public class SignIn extends AppCompatActivity {
                             });
                         }else{
                             Log.v("Sign in status:", "Failure");
+                            myDialog.dismiss();
                             Toast.makeText(SignIn.this,"There was a problem signing you in, Try Again Later!", Toast.LENGTH_LONG).show();
                             passText.setText("");
                         }
@@ -187,13 +189,14 @@ public class SignIn extends AppCompatActivity {
                     for (DataSnapshot u : dataSnapshot.getChildren()){
                         User s = (User) u.getValue(User.class);
                         ((PhoneAFriend) getApplication()).setUsername(s.getUsername());
+                        PhoneAFriend.getInstance().setUserKey(u.getKey());
                     }
                 setUserContactsAndGo(((PhoneAFriend) getApplication()).getUsername());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                myDialog.hide();
+                myDialog.dismiss();
                 Toast.makeText(SignIn.this,"There was a problem getting you username!", Toast.LENGTH_LONG).show();
             }
         });
@@ -270,7 +273,7 @@ public class SignIn extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        myDialog.hide();
+                        myDialog.dismiss();
                         Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
                     }
                 });
@@ -279,7 +282,7 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                myDialog.hide();
+                myDialog.dismiss();
                 Toast.makeText(SignIn.this,"There was a problem getting your contacts, Try Again Later!", Toast.LENGTH_LONG).show();
             }
         });
@@ -303,7 +306,7 @@ public class SignIn extends AppCompatActivity {
                         Message m = new Message(dataSnap);
                         Log.d("New Message ","It's from "+m.getSenderUsername());
                         //add to list
-                        PhoneAFriend.getInstance().getReceivedMessages().add(m);
+                        PhoneAFriend.getInstance().getReceivedMessages().add(0,m);
 
                     }
                 }
@@ -314,7 +317,7 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                myDialog.hide();
+                myDialog.dismiss();
                 Toast.makeText(SignIn.this,"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
             }
         });
@@ -322,7 +325,7 @@ public class SignIn extends AppCompatActivity {
 
     public void Go(){
         //Go to the main menu activity
-        myDialog.hide();
+        myDialog.dismiss();
         startActivity(intent);
         finish();//finish activity so it is removed from our backstack
     }

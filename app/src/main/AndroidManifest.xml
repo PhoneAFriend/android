@@ -3,6 +3,8 @@
     package="seniordesign.phoneafriend">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".PhoneAFriend"
@@ -31,7 +33,10 @@
         <activity android:name=".updateSettings.updatePassword" />
         <activity android:name=".userSearch.searchUsers" />
         <activity android:name=".messaging.NewMessageActivity" />
-        <activity android:name=".messaging.ViewMessage"></activity>
+        <activity android:name=".messaging.ViewMessage" />
+        <activity android:name=".posting.viewPostImage" />
+        <activity android:name=".posting.currentUserPostsList" />
+        <activity android:name=".posting.ViewCurrentUserPost"></activity>
     </application>
 
 </manifest>

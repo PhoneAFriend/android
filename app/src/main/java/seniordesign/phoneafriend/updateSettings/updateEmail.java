@@ -1,5 +1,6 @@
 package seniordesign.phoneafriend.updateSettings;
 
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,10 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 
 /**
@@ -33,12 +37,17 @@ public class updateEmail extends AppCompatActivity {
     private FirebaseUser currentUser;
     private AuthCredential cred;
     private String userEmail;
+    private DatabaseReference db;
+    private ProgressDialog myProgress;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_email_layout);
+
+        /* Get Database Reference */
+        db = FirebaseDatabase.getInstance().getReference();
 
         /* Get the authentication instance and set the current user */
         auth = FirebaseAuth.getInstance();
@@ -48,6 +57,9 @@ public class updateEmail extends AppCompatActivity {
         passText = (EditText) findViewById(R.id.email_passverif);
         emailText = (EditText) findViewById(R.id.new_email);
         userEmail = currentUser.getEmail();
+
+        //New Progress Dialog
+        myProgress = new ProgressDialog(this);
 
         /* Set Listener for submit button */
         submitButton = (Button) findViewById(R.id.submit_email);
@@ -62,10 +74,13 @@ public class updateEmail extends AppCompatActivity {
                 else {
                     //if no error, make user credentials from email and inputted password
                     //we need to verify user before making a change
-                    /*cred = EmailAuthProvider
+                    myProgress.setMessage("Changing your email...");
+                    myProgress.setCancelable(false);
+                    myProgress.show();
+                    cred = EmailAuthProvider
                             .getCredential(userEmail, passText.getText().toString());
                     //pass credentials into function that begins process for change
-                    reauthChange(cred);*/
+                    reauthChange(cred);
                 }
             }
         };
@@ -90,6 +105,7 @@ public class updateEmail extends AppCompatActivity {
                             Log.d("ReAuth Unsuccessful", "User not re-authenticated.");
                             Log.v("  Failure reason ", task.getException().toString());
                             String[] errorString = task.getException().toString().split(":");
+                            myProgress.dismiss();
                             Toast.makeText(updateEmail.this,"Error: "+errorString[1],Toast.LENGTH_LONG).show();
                         }
                     }
@@ -100,19 +116,34 @@ public class updateEmail extends AppCompatActivity {
 
     private void processChange(){
         //Update User Email
+
         currentUser.updateEmail(emailText.getText().toString())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            //If success take back to previous activity with finish()
+                            //If success change database email as well
                             Log.d("Email Change", "User email address updated.");
-                            finish();
+                            db.child("users").child(PhoneAFriend.getInstance().getUserKey()).child("useremail").setValue(emailText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        //on success go back to previous screen trough finish
+                                        myProgress.dismiss();
+                                        Toast.makeText(updateEmail.this,"Email updated, may take some time for change to refresh on settings!",Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }else{
+                                        myProgress.dismiss();
+                                        Toast.makeText(updateEmail.this,"Error: email changed for login, but not database",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }else{
                             //If failure, display error message
                             Log.d("Email Change", "User email not updated.");
                             Log.v("  Failure reason ", task.getException().toString());
                             String[] errorString = task.getException().toString().split(":");
+                            myProgress.dismiss();
                             Toast.makeText(updateEmail.this,"Error: "+errorString[1],Toast.LENGTH_LONG).show();
                         }
                     }

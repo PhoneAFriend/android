@@ -59,6 +59,7 @@ public class inbox extends Fragment {
         inboxListView.setEmptyView(emptyText);
 
         adapter = new InboxListAdapter(getActivity(), PhoneAFriend.getInstance().getReceivedMessages());
+        //PhoneAFriend.getInstance().setInboxAdapt(adapter);//not needed we renotifydatasetchange on resume
         inboxListView.setAdapter(adapter);
 
         inboxListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,6 +83,7 @@ public class inbox extends Fragment {
                                 viewMessageIntent.putExtra("senderUsername",thisMsg.getSenderUsername());
                                 viewMessageIntent.putExtra("subject",thisMsg.getSubject());
                                 viewMessageIntent.putExtra("message",thisMsg.getMessage());
+                                viewMessageIntent.putExtra("key",thisMsg.getKey());
                                 //notify a change to the adapter since our unread value is now false
                                 adapter.notifyDataSetChanged();
                                 //open activity to view message
@@ -97,6 +99,7 @@ public class inbox extends Fragment {
                     viewMessageIntent.putExtra("senderUsername",thisMsg.getSenderUsername());
                     viewMessageIntent.putExtra("subject",thisMsg.getSubject());
                     viewMessageIntent.putExtra("message",thisMsg.getMessage());
+                    viewMessageIntent.putExtra("key",thisMsg.getKey());
                     startActivity(viewMessageIntent);
 
                 }
@@ -135,14 +138,14 @@ public class inbox extends Fragment {
                         Message m = new Message(dataSnap);
                         Log.d("New Message ","It's from "+m.getSenderUsername());
                         //add to list
-                        PhoneAFriend.getInstance().getReceivedMessages().add(m);
+                        PhoneAFriend.getInstance().getReceivedMessages().add(0,m);
 
                     }
                 }
                 //When we finish getting all messages, tell the adapter!
                 adapter.notifyDataSetChanged();
                 //Give a message so user knows refresh is complete
-                refreshProgress.hide();
+                refreshProgress.dismiss();
                 Toast.makeText(getActivity(),"Messages have been refreshed!", Toast.LENGTH_LONG).show();
 
                 //Also set refresh as clickable again
@@ -154,10 +157,16 @@ public class inbox extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 //If we could not get the messages, display error an set refresh button as clickable again
-                refreshProgress.hide();
+                refreshProgress.dismiss();
                 Toast.makeText(getActivity(),"There was a problem getting received messages, Try Again Later!", Toast.LENGTH_LONG).show();
                 refresh.setClickable(true);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

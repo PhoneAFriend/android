@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.messaging;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class InboxListAdapter extends ArrayAdapter<Message>{
 
         //If the message has been read, then make the unread textview hide
         if(!values.get(position).isUnread()){
-            unread.setText("");
+            unread.setText("VIEWED");
+            unread.setTextColor(Color.parseColor("#2196F3"));
         }
 
         //Set the text for the sender and subject textviews using the message values for those fields

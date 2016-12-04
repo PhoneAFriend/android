@@ -1,5 +1,6 @@
 package seniordesign.phoneafriend.updateSettings;
 
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class updatePassword extends AppCompatActivity {
     private FirebaseUser currentUser;
     private AuthCredential cred;
     private String userEmail;
+    private ProgressDialog myProgress;
 
 
     @Override
@@ -41,6 +43,9 @@ public class updatePassword extends AppCompatActivity {
         curPass = (EditText) findViewById(R.id.current_password);
         newPass = (EditText) findViewById(R.id.new_pass_text);
         confPass = (EditText) findViewById(R.id.confirm_pass_text);
+
+        //Make progress dialog
+        myProgress = new ProgressDialog(this);
 
         /* Instantiate Firebase Variables */
         auth = FirebaseAuth.getInstance();
@@ -59,6 +64,9 @@ public class updatePassword extends AppCompatActivity {
                     if(newPass.getText().toString().equals(confPass.getText().toString())) {
                         cred = EmailAuthProvider
                                 .getCredential(userEmail, curPass.getText().toString());
+                        myProgress.setMessage("Updating your password...");
+                        myProgress.setCancelable(false);
+                        myProgress.show();
                         reauthChange(cred);
                     }
                     else{
@@ -91,6 +99,7 @@ public class updatePassword extends AppCompatActivity {
                             Log.d("ReAuth Unsuccessful", "User not re-authenticated.");
                             Log.v("  Failure reason ", task.getException().toString());
                             String[] errorString = task.getException().toString().split(":");
+                            myProgress.dismiss();
                             Toast.makeText(updatePassword.this,"Error: "+errorString[1],Toast.LENGTH_LONG).show();
                         }
                     }
@@ -107,12 +116,14 @@ public class updatePassword extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d("UPDATE PASSWORD", "User password updated.");
+                            myProgress.dismiss();
                             finish();
                         }
                         else{
                             Log.d("UPDATE PASSWORD", "User password not updated.");
                             Log.v("  Failure reason ", task.getException().toString());
                             String[] errorString = task.getException().toString().split(":");
+                            myProgress.dismiss();
                             Toast.makeText(updatePassword.this,"Error: "+errorString[1],Toast.LENGTH_LONG).show();
                         }
 

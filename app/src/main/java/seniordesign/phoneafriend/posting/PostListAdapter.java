@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend.posting;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,19 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import seniordesign.phoneafriend.R;
 
 /**
- * Created by The Alex on 10/7/2016.
+ * Created by The Alex, refined By REB.
  */
 
 public class PostListAdapter extends ArrayAdapter<Post> {
     private Context context;
-    private Post[] values;
+    private ArrayList<Post> values = new ArrayList<>();
 
-    public PostListAdapter(Context context , Post [] values){
+    public PostListAdapter(Context context , ArrayList<Post> values){
         super(context , -1 , values);
         this.context = context;
         this.values = values;
@@ -32,11 +35,21 @@ public class PostListAdapter extends ArrayAdapter<Post> {
 
         TextView questionTitle = (TextView) elementView.findViewById(R.id.postListElement_questionTitle);
         TextView postedBy = (TextView) elementView.findViewById(R.id.postListElement_authorText);
-        TextView datePosted = (TextView) elementView.findViewById(R.id.postListElement_dateText);
+        TextView answeredText = (TextView) elementView.findViewById(R.id.postListElement_answeredText);
+        TextView subject = (TextView) elementView.findViewById(R.id.postList_subject);
 
-        questionTitle.setText(values[position].getQuestionTitle());
-        postedBy.setText("By: "+ values[position].getPostedBy());
-        datePosted.setText("On: " + values[position].getDatePosted());
+        questionTitle.setText(values.get(position).getQuestionTitle());
+        postedBy.setText("By: "+ values.get(position).getPostedBy());
+        subject.setText("Subject: "+values.get(position).getSubject());
+
+        if(values.get(position).getAnswered().equals("true")){
+            answeredText.setText("Answered");
+            answeredText.setTextColor(Color.parseColor("#2196F3"));
+        }else {
+            answeredText.setText("Unaswered");
+            answeredText.setTextColor(Color.parseColor("#FF9494"));
+        }
+        //datePosted.setText("On: " + values.get(position).getDatePosted());
 
 
         return elementView;
