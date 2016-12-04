@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import seniordesign.phoneafriend.PhoneAFriend;
 import seniordesign.phoneafriend.R;
 import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 import seniordesign.phoneafriend.posting.PostListActivity;
 import seniordesign.phoneafriend.posting.currentUserPostsList;
+import seniordesign.phoneafriend.session.SessionActivity;
 import seniordesign.phoneafriend.userSearch.searchUsers;
 
 public class main_selections extends Fragment {
@@ -21,8 +23,11 @@ public class main_selections extends Fragment {
     private View.OnClickListener postOnClickListener;
     private Button searchButton;
     private View.OnClickListener searchUserClickListener;
+    private Button sessionButton;
+    private View.OnClickListener sessionOnClickListener;
     private Intent postIntent;
     private Intent searchIntent;
+    private Intent sessionIntent;
     private View view;
 
 
@@ -60,6 +65,18 @@ public class main_selections extends Fragment {
             }
         });
 
+        sessionIntent = new Intent(getActivity() , SessionActivity.class);
+        sessionIntent.putExtra("SENDER_NAME" , ((PhoneAFriend) getActivity().getApplication()).getUsername() );
+        sessionIntent.putExtra("POST_ID" , "Post Title");
+        sessionIntent.putExtra("RECEIVER_NAME" , "Receiving User");
+        sessionButton = (Button) view.findViewById(R.id.start_session_button);
+        sessionOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(sessionIntent);
+            }
+        };
+        sessionButton.setOnClickListener(sessionOnClickListener);
         return view;
     }
 

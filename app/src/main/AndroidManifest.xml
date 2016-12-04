@@ -36,7 +36,8 @@
         <activity android:name=".messaging.ViewMessage" />
         <activity android:name=".posting.viewPostImage" />
         <activity android:name=".posting.currentUserPostsList" />
-        <activity android:name=".posting.ViewCurrentUserPost"></activity>
+        <activity android:name=".posting.ViewCurrentUserPost" />
+        <activity android:name=".session.SessionActivity"></activity>
     </application>
 
 </manifest>
