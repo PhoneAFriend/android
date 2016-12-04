@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/msg_btn"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="0dp"
         android:background="@drawable/custom_red_button"
         android:src="@drawable/ic_button_delete"/>
     <!--android:text="remove"
