@@ -66,6 +66,7 @@ public class ViewPostActivity extends AppCompatActivity {
                 //sent us the current message, also we send the subject
                 newMsg.putExtra("recipient",postedByView.getText().toString());
                 newMsg.putExtra("subject",questionTitleView.getText().toString());
+                newMsg.putExtra("postKey",recvExtras.getString("postKey"));
                 //Start the new message activity
                 startActivity(newMsg );
             }
