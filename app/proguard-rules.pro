@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Twilio Client
+-keep class com.twilio.** { *; }
+
+# Apache HttpClient
+-dontwarn org.apache.http.**

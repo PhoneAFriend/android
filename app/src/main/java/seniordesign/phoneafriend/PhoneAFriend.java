@@ -1,6 +1,7 @@
 package seniordesign.phoneafriend;
 
 import android.app.Application;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.firebase.client.Firebase;
@@ -40,6 +41,8 @@ public class PhoneAFriend extends Application {
         super.onCreate();
         Firebase.setAndroidContext(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+
     }
 
     public static PhoneAFriend getInstance() {
