@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ViewMessage extends AppCompatActivity {
     private Bundle recvExtras;
     private Button replyButton;
     private Button deleteButton;
+    private ImageButton sessionButton;
     private String messageKey;
     private DatabaseReference db;
 
@@ -104,6 +106,23 @@ public class ViewMessage extends AppCompatActivity {
             }
         };
 
+        //Create a dialog interface which will ask the user if they really want to start a session
+        final DialogInterface.OnClickListener dialogSessionClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button start session
+                        Toast.makeText(ViewMessage.this,"Lets Start a Session from here!",Toast.LENGTH_LONG).show();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked do nothing
+                        break;
+                }
+            }
+        };
+
 
 
 
@@ -119,6 +138,17 @@ public class ViewMessage extends AppCompatActivity {
             }
         });
 
+        sessionButton = (ImageButton) findViewById(R.id.session_btn);
+        sessionButton.setVisibility(View.VISIBLE);
+        sessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Create the Alert Dialog and Show it!
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessage.this);
+                builder.setMessage("Would you like to start a session with "+recvExtras.getString("senderUsername")+"?").setPositiveButton("Yes", dialogSessionClickListener)
+                        .setNegativeButton("No", dialogSessionClickListener).show();
+            }
+        });
     }
 
     public void removeMessage(String key){

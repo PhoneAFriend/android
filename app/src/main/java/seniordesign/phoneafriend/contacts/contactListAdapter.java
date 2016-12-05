@@ -3,6 +3,7 @@ package seniordesign.phoneafriend.contacts;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +111,7 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
         //Handle buttons and add onClickListeners
         ImageButton msgBtn = (ImageButton) view.findViewById(R.id.msg_btn);
         ImageButton rmvBtn = (ImageButton) view.findViewById(R.id.rmv_btn);
+        ImageButton sessionBtn = (ImageButton) view.findViewById(R.id.session_btn);
 
         //Create a dialog interface which will ask the user if they really want to remove a contact
         final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -119,6 +121,23 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked remove contact!
                         removeContact(position);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked do nothing
+                        break;
+                }
+            }
+        };
+
+        //Create a dialog interface which will ask the user if they really want to remove a contact
+        final DialogInterface.OnClickListener dialogSessionClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked remove contact!
+                        Toast.makeText(context,"Lets Start a session here!",Toast.LENGTH_LONG).show();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -147,6 +166,16 @@ public class contactListAdapter extends BaseAdapter implements ListAdapter{
                 Intent newMsg = new Intent(context, NewMessageActivity.class);
                 newMsg.putExtra("recipient",values.get(position));
                 context.startActivity(newMsg );
+            }
+        });
+
+        sessionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Create the Alert Dialog and Show it!
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Would you like to start a session with "+values.get(position)+"?").setPositiveButton("Yes", dialogSessionClickListener)
+                        .setNegativeButton("No", dialogSessionClickListener).show();
             }
         });
 
