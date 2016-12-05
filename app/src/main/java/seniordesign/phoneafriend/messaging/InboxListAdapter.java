@@ -47,7 +47,10 @@ public class InboxListAdapter extends ArrayAdapter<Message>{
 
         //Set the text for the sender and subject textviews using the message values for those fields
         sender.setText(values.get(position).getSenderUsername());
-        subject.setText(values.get(position).getSubject());
+        if(values.get(position).getSubject().length() > 20)
+            subject.setText(values.get(position).getSubject().substring(0,20)+"...");
+        else
+            subject.setText(values.get(position).getSubject());
 
         return elementView;
 
