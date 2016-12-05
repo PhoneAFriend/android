@@ -143,6 +143,7 @@ public class PostListActivity extends AppCompatActivity {
                 viewPostIntent.putExtra("postedBy", thisPost.getPostedBy());
                 viewPostIntent.putExtra("subject",thisPost.getSubject());
                 viewPostIntent.putExtra("questionImageURL",thisPost.getQuestionImageURL());
+                viewPostIntent.putExtra("postKey",thisPost.getPostKey());
                 startActivity(viewPostIntent);
             }
         });
