@@ -27,6 +27,7 @@ public class NewMessageActivity extends AppCompatActivity {
     private EditText message_content;
     private Button send_msg;
     private DatabaseReference db;
+    private String postKey;
 
     private Bundle recvExtras;
 
@@ -70,6 +71,14 @@ public class NewMessageActivity extends AppCompatActivity {
             }
         });
 
+        if(recvExtras.getString("postKey") != null){
+            postKey = recvExtras.getString("postKey");
+        }
+        else{
+            postKey = "";
+        }
+        //Toast.makeText(NewMessageActivity.this,"Post Key is <"+postKey+">",Toast.LENGTH_LONG).show();
+
         //Find our send button and implement what to do when we click it
         send_msg = (Button) findViewById(R.id.msg_button);
         send_msg.setText("Send");
@@ -82,7 +91,8 @@ public class NewMessageActivity extends AppCompatActivity {
                 if(fieldsVerified()){
                     //If all is correct, post to the database
                     String key = db.child("messages").push().getKey();
-                    Message sentMsg = new Message(message_content.getText().toString(), username_text.getText().toString(), PhoneAFriend.getInstance().getUsername(), subject_text.getText().toString(), true, key);
+                    Message sentMsg = new Message(message_content.getText().toString(), username_text.getText().toString(), PhoneAFriend.getInstance().getUsername(), subject_text.getText().toString(), true, key, postKey);
+                    //Toast.makeText(NewMessageActivity.this,"Post Key is <"+sentMsg.getPostKey()+">",Toast.LENGTH_LONG).show();
                     db.child("messages").child(key).setValue(sentMsg.toMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

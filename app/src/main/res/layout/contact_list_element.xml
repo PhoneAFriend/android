@@ -23,26 +23,34 @@
         android:drawableEnd="@drawable/ic_tab_inbox"
         android:drawableRight="@drawable/ic_tab_inbox"
         android:background="@drawable/custom_blue_button" />-->
+<ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toLeftOf="@+id/msg_btn"
+    android:src="@drawable/ic_start_session"
+    android:background="@drawable/custom_button"
+    android:layout_centerVertical="true"
+    android:id="@id/session_btn"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
-        android:id="@+id/msg_btn"
-        android:src="@drawable/ic_tab_inbox"
-        android:background="@drawable/custom_blue_button"
+        android:id="@+id/rmv_btn"
+        android:src="@drawable/ic_button_delete"
+        android:background="@drawable/custom_red_button"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 
     <ImageButton
-        android:id="@+id/rmv_btn"
+        android:id="@+id/msg_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/msg_btn"
+        android:layout_toLeftOf="@id/rmv_btn"
         android:layout_centerVertical="true"
         android:layout_marginRight="0dp"
-        android:background="@drawable/custom_red_button"
-        android:src="@drawable/ic_button_delete"/>
+        android:background="@drawable/custom_blue_button"
+        android:src="@drawable/ic_tab_inbox"/>
     <!--android:text="remove"
         android:textSize="14sp"-->
 
