@@ -36,10 +36,12 @@ public class currentUserPostsList extends AppCompatActivity {
     private TextView title;
     private Button newPostButton;
     private Button refreshButton;
+    private Boolean execOnResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        execOnResume = false;
         setContentView(R.layout.activity_post_list);
         newPostIntent = new Intent(this , NewPostActivity.class);
         db = FirebaseDatabase.getInstance().getReference();
@@ -147,7 +149,13 @@ public class currentUserPostsList extends AppCompatActivity {
     {  // After a pause OR at startup
         super.onResume();
         //Refresh your stuff here
-        init(true);
+        //postArrayList.clear();
+        if(execOnResume) {
+            init(true);
+        }else{
+            execOnResume = true;
+        }
+        //postListViewAdapter.notifyDataSetChanged();
         //Essentially we are pulling from that database..
         //This is a concern currently for a user that has a large amount of post
         //This will work for now, but we need a way to be able to go through a list of x post at a time
