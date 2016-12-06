@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_weight="1"/>
 
-    <seniordesign.phoneafriend.session.SessionActivity.SessionView
+    <seniordesign.phoneafriend.session.SessionView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
