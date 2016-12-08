@@ -24,7 +24,8 @@ public class SessionView extends SurfaceView implements Runnable {
     private Thread thread;
     private SurfaceHolder holder;
     private boolean drawingReady;
-    private Path stroke;
+    private boolean colorBackgroundFlag;
+
 
     public SessionView(Context context, AttributeSet attributeSet){
         super(context , attributeSet);
@@ -42,19 +43,21 @@ public class SessionView extends SurfaceView implements Runnable {
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
-                //do nothing
+                drawingReady = true;
             }
         });
 
         initPaint();
         strokes = new ArrayList<Path>();
+        initStrokes();
+        colorBackgroundFlag = true;
 
     }
 
     private void initPaint() {
         paint = new Paint();
         paint.setDither(true);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth(30);
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
@@ -68,9 +71,11 @@ public class SessionView extends SurfaceView implements Runnable {
                 Canvas canvas = holder.lockCanvas();
                 canvas.drawColor(Color.WHITE);
                 if(strokes != null) {
-                    for(Path paths: strokes){
-                        canvas.drawPath(paths  , paint);
-                    }
+                   synchronized (strokes) {
+                       for (Path paths : strokes) {
+                           canvas.drawPath(paths, paint);
+                       }
+                   }
                 }
                 holder.unlockCanvasAndPost(canvas);
             }
@@ -99,8 +104,25 @@ public class SessionView extends SurfaceView implements Runnable {
 
 
     public void addStroke(Path stroke){
-        strokes.add(stroke);
+        synchronized (strokes) {
+            strokes.add(stroke);
+        }
         return;
+    }
+
+    public void sleepThread(long milli){
+        try{
+            thread.sleep(50);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        return;
+    }
+
+    private void initStrokes(){
+        for(int i = 0 ; i < 500 ; i++){
+            strokes.add(new Path());
+        }
     }
 
 

@@ -144,14 +144,14 @@ public class SignIn extends AppCompatActivity {
         myDialog.setMessage("Getting Username...");
         myDialog.setCancelable(false);
         myDialog.show();
-        auth.signInWithEmailAndPassword("barahonaraul@live.com" , "password123" )
+        auth.signInWithEmailAndPassword("thealex123@gmail.com" , "password123" )
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.v("Sign in attempt : " , "Completed");
                         if(task.isSuccessful()){
                             Log.v("Sign in status:" , "Success");
-                            db.child("users").orderByChild("useremail").equalTo("barahonaraul@live.com").addListenerForSingleValueEvent(new ValueEventListener() {
+                            db.child("users").orderByChild("useremail").equalTo("thealex123@gmail.com").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if( dataSnapshot.getChildrenCount() == 1)

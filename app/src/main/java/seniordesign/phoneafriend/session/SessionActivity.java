@@ -27,13 +27,10 @@ public class SessionActivity extends AppCompatActivity{
     private String senderName;
     private String receiverName;
     private TextView textView;
-    private Display display;
-    private Canvas canvas;
-    private Bitmap bitmap;
     private SessionView blackboard;
     private View.OnTouchListener blackboardListener;
-    private ArrayList<Path> strokes;
     private ArrayList<Point> strokePoints;
+    private Path path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +41,15 @@ public class SessionActivity extends AppCompatActivity{
         receiverName = getIntent().getStringExtra("RECEIVER_NAME");
         textView = (TextView) findViewById(R.id.session_postTitle);
         textView.setText(postId);
-        display = getWindowManager().getDefaultDisplay();
-        bitmap = null;
         blackboard = (SessionView) findViewById(R.id.session_blackboard);
-        strokes = new ArrayList<Path>();
         strokePoints = new ArrayList<Point>();
+        path = new Path();
         blackboardListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                Path path = new Path();
+                blackboard.sleepThread(50);
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    path = new Path();
                     Log.d("Screen pressed", "Path at "+event.getX()+" , "+event.getY());
                     path.moveTo(event.getX(), event.getY());
                     strokePoints.add(new Point((int) event.getX() , (int) event.getY()));
@@ -66,11 +62,9 @@ public class SessionActivity extends AppCompatActivity{
                     Log.d("Screen unpressed" , "Path ended at " + event.getX()+" , "+event.getY());
                     path.lineTo(event.getX(), event.getY());
                     path.close();
-                    blackboard.addStroke(path);
                     strokePoints.add(new Point((int) event.getX() , (int) event.getY()));
                 }
-
-
+                blackboard.addStroke(path);
                 return true;
             }
         };
@@ -82,11 +76,6 @@ public class SessionActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         blackboard.resume();
-       /* if (bitmap == null) {
-            bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
-            canvas = new Canvas(bitmap);
-            canvas.drawColor(Color.WHITE);
-        }*/
     }
 
     protected void onPause(){
