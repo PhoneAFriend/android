@@ -47,7 +47,6 @@ public class SessionActivity extends AppCompatActivity{
         blackboardListener = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                blackboard.sleepThread(50);
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     path = new Path();
                     Log.d("Screen pressed", "Path at "+event.getX()+" , "+event.getY());
@@ -64,7 +63,7 @@ public class SessionActivity extends AppCompatActivity{
                     path.close();
                     strokePoints.add(new Point((int) event.getX() , (int) event.getY()));
                 }
-                blackboard.addStroke(path);
+                blackboard.drawStroke(path);
                 return true;
             }
         };
@@ -73,14 +72,15 @@ public class SessionActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        blackboard.resume();
+    protected void onStop(){
+        super.onStop();
+        blackboard.clear();
     }
 
+    @Override
     protected void onPause(){
         super.onPause();
-        blackboard.pause();
+        blackboard.clear();
     }
 
 
