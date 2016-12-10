@@ -76,6 +76,9 @@ public class SessionView extends View {
         paint.setStrokeWidth(width);
     }
 
+    public int getPaintColor(){ return paint.getColor();}
+    public float getPaintWidth(){ return paint.getStrokeWidth();}
+
 
 
 }
