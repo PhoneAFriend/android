@@ -6,12 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +20,22 @@ import java.util.List;
 
 public class SessionView extends View {
     private Paint paint;
-    private Canvas canvas;
+    private Canvas memcanvas;
     private Bitmap bitmap;
-    private Path stroke;
     private List<Path> strokes;
-
-
+    private Path stroke;
 
     public SessionView(Context context, AttributeSet attributeSet){
         super(context , attributeSet);
         initPaint();
-        stroke = new Path();
         strokes = new ArrayList<>();
     }
 
     @Override
     protected void onSizeChanged(int w , int h , int oldw , int oldh){
         bitmap = Bitmap.createBitmap(w , h , Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.WHITE);
+        memcanvas = new Canvas(bitmap);
+        memcanvas.drawColor(Color.WHITE);
     }
 
     private void initPaint() {
@@ -56,27 +50,30 @@ public class SessionView extends View {
     }
 
 
-
-
-
-
     public void drawStroke(Path stroke) {
-                    strokes.add(stroke);
-                    invalidate();
+        this.stroke = stroke;
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        canvas.drawBitmap(bitmap , 0 , 0 , paint);
-         for(Path stroke : strokes){
-            Log.d("DRAWING", "Drawing stroke");
-            canvas.drawPath(stroke, paint);
+        if(stroke != null && !stroke.isEmpty()) {
+            memcanvas.drawPath(stroke, paint);
+            canvas.drawBitmap(bitmap, 0, 0, paint);
         }
     }
 
     public void clear(){
         strokes.clear();
+    }
+
+    public void setPaintColor(int color){
+        paint.setColor(color);
+    }
+
+    public void setPaintWidth(float width){
+        paint.setStrokeWidth(width);
     }
 
 
