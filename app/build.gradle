@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "seniordesign.phoneafriend"
-        minSdkVersion 15
+        minSdkVersion 10
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -19,6 +20,9 @@ android {
         debug{
             debuggable true
         }
+    }
+    configurations {
+        all*.exclude group: 'com.firebase.client'
     }
 
     packagingOptions {

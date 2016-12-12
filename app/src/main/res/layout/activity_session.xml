@@ -10,24 +10,113 @@
     tools:context="seniordesign.phoneafriend.session.SessionActivity"
     >
 
-    <TextView
-        android:text="TextView"
+    <TabHost
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/session_postTitle"
-        android:textAlignment="center"
-        android:textSize="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:id="@+id/session_tabHost"
+        >
 
-    <seniordesign.phoneafriend.session.SessionView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/session_blackboard"
-        android:layout_weight="7" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"/>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/session_postLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="78dp"
+                        android:id="@+id/session_postTitle"
+                        android:textAlignment="center"
+                        android:textSize="32dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:text="Post Body"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/session_postBody"
+                        android:layout_weight="3"/>
+                    />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/session_blackboardLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <seniordesign.phoneafriend.session.SessionView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/session_blackboard"
+                        android:layout_weight="8"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/session_blackboard"
+                        android:layout_weight = "1">
+                        <Button
+                            android:text="Color"
+                            android:id="@+id/session_blackboardColorBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+                        <Button
+                            android:text="Stroke"
+                            android:id="@+id/session_blackboardStrokeWidthBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                        <Button
+                            android:text="Prev"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                        <Button
+                            android:text="Next"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/session_chatLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+
 
 </LinearLayout>
