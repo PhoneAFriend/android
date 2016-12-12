@@ -79,19 +79,22 @@
                         android:orientation="horizontal"
                         android:layout_below="@id/session_blackboard"
                         android:layout_weight = "1">
-                        <Button
-                            android:text="Color"
-                            android:id="@+id/session_blackboardColorBtn"
+                        <Spinner
+                            android:id="@+id/session_colorSpinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:background="@android:drawable/btn_dropdown"
+                            android:spinnerMode="dropdown"
+                            android:layout_weight="2"
                             />
-                        <Button
-                            android:text="Stroke"
-                            android:id="@+id/session_blackboardStrokeWidthBtn"
+                        <Spinner
+                            android:id="@+id/session_strokeSpinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:background="@android:drawable/btn_dropdown"
+                            android:spinnerMode="dropdown"
+                            android:layout_weight="2"
+                            />
                         <Button
                             android:text="Prev"
                             android:layout_width="0dp"

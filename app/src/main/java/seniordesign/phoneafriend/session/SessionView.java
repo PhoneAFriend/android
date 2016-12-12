@@ -24,6 +24,7 @@ public class SessionView extends View {
     private Bitmap bitmap;
     private List<Path> strokes;
     private Path stroke;
+    private String dbColor;
 
     public SessionView(Context context, AttributeSet attributeSet){
         super(context , attributeSet);
@@ -40,9 +41,10 @@ public class SessionView extends View {
 
     private void initPaint() {
         paint = new Paint();
+        dbColor = "#000000";
         paint.setDither(true);
-        paint.setStrokeWidth(30);
-        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(30); //small = 20 , med = 30 , large = 40
+        paint.setColor(Color.parseColor("#000000"));
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -78,6 +80,8 @@ public class SessionView extends View {
 
     public int getPaintColor(){ return paint.getColor();}
     public float getPaintWidth(){ return paint.getStrokeWidth();}
+    public String getDBColor(){return dbColor;}
+    public void setDBColor(String dbColor){this.dbColor = dbColor;}
 
 
 

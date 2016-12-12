@@ -18,6 +18,9 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -41,6 +44,10 @@ public class SessionActivity extends AppCompatActivity {
     private String recipientName;
     private TextView postTitle;
     private TextView postBody;
+    private Spinner colorDropdown;
+    private Spinner strokeDropdown;
+    private Spinner.OnItemSelectedListener colorSpinnerListener;
+    private Spinner.OnItemSelectedListener strokeSpinnerListener;
     private SessionView blackboard;
     private View.OnTouchListener blackboardListener;
     private Path path;
@@ -96,7 +103,7 @@ public class SessionActivity extends AppCompatActivity {
 
     private void changeStrokeKey(){
         strokeKey = db.child("Sessions").child(sessionKey).child("Strokes").push().getKey();
-        db.child("Sessions").child(sessionKey).child("Strokes").child(strokeKey).child("color").setValue(blackboard.getPaintColor());
+        db.child("Sessions").child(sessionKey).child("Strokes").child(strokeKey).child("color").setValue(blackboard.getDBColor());
         db.child("Sessions").child(sessionKey).child("Strokes").child(strokeKey).child("width").setValue(blackboard.getPaintWidth());
     }
 
@@ -185,6 +192,71 @@ public class SessionActivity extends AppCompatActivity {
         };
 
         blackboard.setOnTouchListener(blackboardListener);
+
+        colorDropdown = (Spinner)findViewById(R.id.session_colorSpinner);
+        String[] colorItems = new String[]{"Black", "White", "Red"}; // TODO: Change to icons and add more options
+        ArrayAdapter<String> colorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, colorItems);
+        colorDropdown.setAdapter(colorAdapter);
+
+        colorSpinnerListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(i){
+                    case(0):
+                        blackboard.setPaintColor(Color.parseColor("#000000"));
+                        blackboard.setDBColor("#000000");
+                        break;
+                    case(1):
+                         blackboard.setPaintColor(Color.parseColor("#FFFFFF"));
+                        blackboard.setDBColor("#FFFFFF");
+                        break;
+                    case(2):
+                        blackboard.setPaintColor(Color.parseColor("#FF0000"));
+                        blackboard.setDBColor("#FF0000");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                blackboard.setPaintColor(Color.parseColor("#000000"));
+                blackboard.setDBColor("#000000");
+            }
+        };
+
+        colorDropdown.setOnItemSelectedListener(colorSpinnerListener);
+
+        strokeDropdown = (Spinner)findViewById(R.id.session_strokeSpinner);
+        String[] strokeItems = new String[]{"Small", "Medium", "Large" , "Eraser"}; // TODO: Change to icons and add more options
+        ArrayAdapter<String> strokeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, strokeItems);
+        strokeDropdown.setAdapter(strokeAdapter);
+
+        strokeSpinnerListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch(i){
+                    case(0):
+                        blackboard.setPaintWidth(10);
+                        break;
+                    case(1):
+                        blackboard.setPaintWidth(25);
+                        break;
+                    case(2):
+                        blackboard.setPaintWidth(55);
+                        break;
+                    case(3):
+                        blackboard.setPaintWidth(150);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                blackboard.setPaintWidth(25);
+            }
+        };
+
+        strokeDropdown.setOnItemSelectedListener(strokeSpinnerListener);
     }
 
     private void initChatTab(){
