@@ -35,6 +35,8 @@ import static seniordesign.phoneafriend.R.id.textView;
 public class SessionActivity extends AppCompatActivity {
     private String postId;
     private DatabaseReference db;
+    private String postTitleText;
+    private String postBodyText;
     private String senderName;
     private String recipientName;
     private TextView postTitle;
@@ -53,50 +55,18 @@ public class SessionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
+
         postId = getIntent().getStringExtra("POST_ID");
         senderName = getIntent().getStringExtra("SENDER_NAME");
         recipientName = getIntent().getStringExtra("RECEIVER_NAME");
-        postTitle = (TextView) findViewById(R.id.session_postTitle);
-        postTitle.setText(getIntent().getStringExtra("POST_TITLE"));
-        postBody = (TextView) findViewById(R.id.session_postBody);
-        postBody.setText((getIntent().getStringExtra("POST_BODY")));
-        blackboard = (SessionView) findViewById(R.id.session_blackboard);
-        path = new Path();
-        db = FirebaseDatabase.getInstance().getReference();
-        sessionKey = db.child("Sessions").push().getKey();
-        db.child("Sessions").child(sessionKey).child("senderName").setValue(senderName);
-        db.child("Sessions").child(sessionKey).child("recipientName").setValue(recipientName);
-        db.child("Sessions").child(sessionKey).child("postRef").setValue(postId);
-        Log.d("SESSION INFO" , "Session Key: " + sessionKey);
-        blackboardListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    changeStrokeKey();
-                    path = new Path();
-                    //Log.d("Screen pressed", "Path at "+event.getX()+" , "+event.getY());
-                    path.moveTo(event.getX(), event.getY());
-                    postPoint(event.getX() , event.getY());
-                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    //Log.d("Touch moving" , "Path at "+event.getX()+ " , " + event.getY());
-                    path.lineTo(event.getX(), event.getY());
-                    path.moveTo(event.getX(), event.getY());
-                    postPoint(event.getX() , event.getY());
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                   //Log.d("Screen unpressed" , "Path ended at " + event.getX()+" , "+event.getY());
-                    path.lineTo(event.getX(), event.getY());
-                    path.close();
-                    postPoint(event.getX() , event.getY());
+        postTitleText = getIntent().getStringExtra("POST_TITLE");
+        postBodyText = getIntent().getStringExtra("POST_BODY");
 
-                }
-                blackboard.drawStroke(path);
-
-                return true;
-            }
-        };
-
-        blackboard.setOnTouchListener(blackboardListener);
+        initSessionDB();
+        initBlackboardTab();
+        initQuestionTab();
         initTabHost();
+        initChatTab();
     }
 
     @Override
@@ -164,10 +134,62 @@ public class SessionActivity extends AppCompatActivity {
 
     }
 
+    private void initSessionDB(){
+        db = FirebaseDatabase.getInstance().getReference();
+        sessionKey = db.child("Sessions").push().getKey();
+        db.child("Sessions").child(sessionKey).child("senderName").setValue(senderName);
+        db.child("Sessions").child(sessionKey).child("recipientName").setValue(recipientName);
+        db.child("Sessions").child(sessionKey).child("postRef").setValue(postId);
+        Log.d("SESSION INFO" , "Session Key: " + sessionKey);
+    }
+
     private void deleteSession(){
         db.child("Sessions").child(sessionKey).removeValue();
     }
 
+    private void initQuestionTab(){
+        postTitle = (TextView) findViewById(R.id.session_postTitle);
+        postTitle.setText(postTitleText);
+        postBody = (TextView) findViewById(R.id.session_postBody);
+        postBody.setText(postBodyText);
+    }
+
+    private void initBlackboardTab(){
+        blackboard = (SessionView) findViewById(R.id.session_blackboard);
+        path = new Path();
+        blackboardListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    changeStrokeKey();
+                    path = new Path();
+                    //Log.d("Screen pressed", "Path at "+event.getX()+" , "+event.getY());
+                    path.moveTo(event.getX(), event.getY());
+                    postPoint(event.getX() , event.getY());
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    //Log.d("Touch moving" , "Path at "+event.getX()+ " , " + event.getY());
+                    path.lineTo(event.getX(), event.getY());
+                    path.moveTo(event.getX(), event.getY());
+                    postPoint(event.getX() , event.getY());
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //Log.d("Screen unpressed" , "Path ended at " + event.getX()+" , "+event.getY());
+                    path.lineTo(event.getX(), event.getY());
+                    path.close();
+                    postPoint(event.getX() , event.getY());
+
+                }
+                blackboard.drawStroke(path);
+
+                return true;
+            }
+        };
+
+        blackboard.setOnTouchListener(blackboardListener);
+    }
+
+    private void initChatTab(){
+
+    }
     private void setTabColors(){
         for(int i = 0 ;i< 3 ;i++){
             tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(Color.parseColor("#2196F3")); //myBlue
