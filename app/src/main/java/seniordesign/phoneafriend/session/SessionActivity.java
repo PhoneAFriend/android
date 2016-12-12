@@ -29,9 +29,10 @@ import java.util.List;
 
 import seniordesign.phoneafriend.R;
 
+import static seniordesign.phoneafriend.R.id.tab_horz_scroller;
 import static seniordesign.phoneafriend.R.id.textView;
 
-public class SessionActivity extends AppCompatActivity{
+public class SessionActivity extends AppCompatActivity {
     private String postId;
     private DatabaseReference db;
     private String senderName;
@@ -43,6 +44,8 @@ public class SessionActivity extends AppCompatActivity{
     private Path path;
     private String sessionKey;
     private TabHost tabHost;
+    private TabHost.OnTabChangeListener tabChangeListener;
+    private int currentTab;
     //Need to consider multiple pages later on
     private String strokeKey;
 
@@ -128,52 +131,48 @@ public class SessionActivity extends AppCompatActivity{
     }
 
     private void initTabHost(){
-        TabHost host = (TabHost)findViewById(R.id.session_tabHost);
-        host.setup();
+        tabHost = (TabHost)findViewById(R.id.session_tabHost);
+        tabHost.setup();
 
         TabHost.TabSpec spec;
 
-        spec = host.newTabSpec("Post");
+        spec = tabHost.newTabSpec("Post");
         spec.setContent(R.id.session_postLayout);
         spec.setIndicator("Question");
-        host.addTab(spec);
+        tabHost.addTab(spec);
 
-        spec = host.newTabSpec("Blackboard");
+        spec = tabHost.newTabSpec("Blackboard");
         spec.setContent(R.id.session_blackboardLayout);
         spec.setIndicator("Blackboard");
-        host.addTab(spec);
+        tabHost.addTab(spec);
 
-        spec = host.newTabSpec("Chat");
+        spec = tabHost.newTabSpec("Chat");
         spec.setContent(R.id.session_chatLayout);
         spec.setIndicator("Chat");
-        host.addTab(spec);
+        tabHost.addTab(spec);
+
+        tabChangeListener = new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                setTabColors();
+            }
+        };
+
+        tabHost.setOnTabChangedListener(tabChangeListener);
+
+        setTabColors();
+
     }
-
-
 
     private void deleteSession(){
         db.child("Sessions").child(sessionKey).removeValue();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        /*
-        if (id == R.id.action_settings) {
-            return true;
+    private void setTabColors(){
+        for(int i = 0 ;i< 3 ;i++){
+            tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(Color.parseColor("#2196F3")); //myBlue
         }
-        */
-
-        return super.onOptionsItemSelected(item);
+        tabHost.getTabWidget().getChildTabViewAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#CDDC39")); //myGreen
     }
-
-
 }
 
