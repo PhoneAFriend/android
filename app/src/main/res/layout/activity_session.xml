@@ -82,28 +82,30 @@
                         <Spinner
                             android:id="@+id/session_colorSpinner"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@android:drawable/btn_dropdown"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/custom_spinner"
                             android:spinnerMode="dropdown"
                             android:layout_weight="2"
                             />
                         <Spinner
                             android:id="@+id/session_strokeSpinner"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@android:drawable/btn_dropdown"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/custom_spinner"
                             android:spinnerMode="dropdown"
                             android:layout_weight="2"
                             />
                         <Button
-                            android:text="Prev"
+                            android:drawableTop="@drawable/ic_arrow_left"
+                            android:background="@drawable/custom_button"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"/>
                         <Button
-                            android:text="Next"
+                            android:drawableTop="@drawable/ic_arrow_right"
+                            android:background="@drawable/custom_button"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"/>
                     </LinearLayout>
 

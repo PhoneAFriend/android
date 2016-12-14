@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -115,17 +116,17 @@ public class SessionActivity extends AppCompatActivity {
 
         spec = tabHost.newTabSpec("Post");
         spec.setContent(R.id.session_postLayout);
-        spec.setIndicator("Question");
+        spec.setIndicator("Question" , ResourcesCompat.getDrawable(getResources(), R.drawable.ic_question_icon, null));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("Blackboard");
         spec.setContent(R.id.session_blackboardLayout);
-        spec.setIndicator("Blackboard");
+        spec.setIndicator("Blackboard",  ResourcesCompat.getDrawable(getResources(), R.drawable.ic_blackboard_icon, null));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("Chat");
         spec.setContent(R.id.session_chatLayout);
-        spec.setIndicator("Chat");
+        spec.setIndicator("Chat",  ResourcesCompat.getDrawable(getResources(), R.drawable.ic_chat_icon, null));
         tabHost.addTab(spec);
 
         tabChangeListener = new TabHost.OnTabChangeListener() {
