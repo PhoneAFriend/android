@@ -13,14 +13,17 @@ import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import seniordesign.phoneafriend.R;
 
@@ -56,6 +60,9 @@ public class SessionActivity extends AppCompatActivity {
     private TabHost tabHost;
     private TabHost.OnTabChangeListener tabChangeListener;
     private int currentTab;
+    private EditText chatEditText;
+    private TextView chatTextView;
+    private TextView.OnEditorActionListener chatEditListener;
 
     //Need to consider multiple pages later on
     private String strokeKey;
@@ -144,6 +151,14 @@ public class SessionActivity extends AppCompatActivity {
     private void initSessionDB(){
         db = FirebaseDatabase.getInstance().getReference();
         sessionKey = db.child("Sessions").push().getKey();
+
+        if(isDemoSession){
+            Random rand = new Random();
+            String demoSessionNum = "Demo" + Integer.toString(rand.nextInt(100));
+            String oldSessionKey = sessionKey;
+            sessionKey = demoSessionNum;
+            db.child("Sessions").child(oldSessionKey).setValue(sessionKey);
+        }
         db.child("Sessions").child(sessionKey).child("senderName").setValue(senderName);
         db.child("Sessions").child(sessionKey).child("recipientName").setValue(recipientName);
         db.child("Sessions").child(sessionKey).child("postRef").setValue(postId);
@@ -266,7 +281,21 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     private void initChatTab(){
-
+        chatEditText = (EditText) findViewById(R.id.session_chat_editView);
+        chatTextView = (TextView) findViewById(R.id.session_chat_textView);
+        chatEditListener = new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_DONE){
+                    String messageKey = db.child("Sessions").child(sessionKey).child("Chat").push().getKey();
+                    String sentMessage = chatEditText.getText().toString();
+                    db.child("Sessions").child(sessionKey).child("Chat").child(messageKey).child("message").setValue(sentMessage);
+                    chatEditText.setText("");
+                }
+                return false;
+            };
+        };
+        chatEditText.setOnEditorActionListener(chatEditListener);
     }
     private void setTabColors(){
         for(int i = 0 ;i< 3 ;i++){

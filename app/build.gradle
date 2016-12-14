@@ -21,9 +21,6 @@ android {
             debuggable true
         }
     }
-    configurations {
-        all*.exclude group: 'com.firebase.client'
-    }
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
