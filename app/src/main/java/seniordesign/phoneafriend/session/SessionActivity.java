@@ -56,7 +56,7 @@ public class SessionActivity extends AppCompatActivity {
     private TabHost tabHost;
     private TabHost.OnTabChangeListener tabChangeListener;
     private int currentTab;
-    
+
     //Need to consider multiple pages later on
     private String strokeKey;
 
@@ -85,7 +85,7 @@ public class SessionActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
-        blackboard.clear();
+        deleteSession();
     }
 
     @Override
@@ -94,12 +94,6 @@ public class SessionActivity extends AppCompatActivity {
         blackboard.clear();
     }
 
-    //Need to get rid of clutter in the DB
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        deleteSession();
-    }
 
     private void postPoint(float x , float y){
        String pointKey  = db.child("Sessions").child(sessionKey).child("Strokes").child(strokeKey).child("Points").push().getKey();
