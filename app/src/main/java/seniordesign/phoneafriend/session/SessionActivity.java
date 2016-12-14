@@ -56,8 +56,12 @@ public class SessionActivity extends AppCompatActivity {
     private TabHost tabHost;
     private TabHost.OnTabChangeListener tabChangeListener;
     private int currentTab;
+    
     //Need to consider multiple pages later on
     private String strokeKey;
+
+    //Demo Only
+    private boolean isDemoSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class SessionActivity extends AppCompatActivity {
         recipientName = getIntent().getStringExtra("RECEIVER_NAME");
         postTitleText = getIntent().getStringExtra("POST_TITLE");
         postBodyText = getIntent().getStringExtra("POST_BODY");
+        isDemoSession = getIntent().getBooleanExtra("DEMO_SESSION" , true); //Change to false when real sessions working
 
         initSessionDB();
         initBlackboardTab();
@@ -157,9 +162,15 @@ public class SessionActivity extends AppCompatActivity {
 
     private void initQuestionTab(){
         postTitle = (TextView) findViewById(R.id.session_postTitle);
-        postTitle.setText(postTitleText);
         postBody = (TextView) findViewById(R.id.session_postBody);
+        if(isDemoSession){
+            postTitleText = "Demo Question";
+            postBodyText = "Hello! This is an example of a Session in PhoneAFriend. If you have someone to connect to this session, give them your session key and they can see what you draw on your blackboard as well as chat with you!\n\nYour session key:\n"+sessionKey;
+        }
+
+        postTitle.setText(postTitleText);
         postBody.setText(postBodyText);
+
     }
 
     private void initBlackboardTab(){
