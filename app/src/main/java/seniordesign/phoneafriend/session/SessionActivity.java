@@ -28,6 +28,9 @@ import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -64,6 +67,7 @@ public class SessionActivity extends AppCompatActivity {
     private TextView chatTextView;
     private TextView.OnEditorActionListener chatEditListener;
 
+
     //Need to consider multiple pages later on
     private String strokeKey;
 
@@ -82,7 +86,15 @@ public class SessionActivity extends AppCompatActivity {
         postBodyText = getIntent().getStringExtra("POST_BODY");
         isDemoSession = getIntent().getBooleanExtra("DEMO_SESSION" , true); //Change to false when real sessions working
 
-        initSessionDB();
+        db = FirebaseDatabase.getInstance().getReference();
+        if(isDemoSession){
+            Random rand = new Random();
+            String demoSessionNum = "Demo" + Integer.toString(rand.nextInt(100));
+            sessionKey = demoSessionNum;
+        }else{
+            sessionKey = db.child("Sessions").push().getKey();
+        }
+
         initBlackboardTab();
         initQuestionTab();
         initTabHost();
@@ -101,6 +113,11 @@ public class SessionActivity extends AppCompatActivity {
         blackboard.clear();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        initSessionDB();
+    }
 
     private void postPoint(float x , float y){
        String pointKey  = db.child("Sessions").child(sessionKey).child("Strokes").child(strokeKey).child("Points").push().getKey();
@@ -149,20 +166,40 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     private void initSessionDB(){
-        db = FirebaseDatabase.getInstance().getReference();
-        sessionKey = db.child("Sessions").push().getKey();
 
-        if(isDemoSession){
-            Random rand = new Random();
-            String demoSessionNum = "Demo" + Integer.toString(rand.nextInt(100));
-            String oldSessionKey = sessionKey;
-            sessionKey = demoSessionNum;
-            db.child("Sessions").child(oldSessionKey).setValue(sessionKey);
-        }
         db.child("Sessions").child(sessionKey).child("senderName").setValue(senderName);
         db.child("Sessions").child(sessionKey).child("recipientName").setValue(recipientName);
         db.child("Sessions").child(sessionKey).child("postRef").setValue(postId);
         Log.d("SESSION INFO" , "Session Key: " + sessionKey);
+
+        db.child("Sessions").child(sessionKey).child("Chat").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if(dataSnapshot!=null){
+                    renderChat(dataSnapshot);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void deleteSession(){
@@ -290,6 +327,7 @@ public class SessionActivity extends AppCompatActivity {
                     String messageKey = db.child("Sessions").child(sessionKey).child("Chat").push().getKey();
                     String sentMessage = chatEditText.getText().toString();
                     db.child("Sessions").child(sessionKey).child("Chat").child(messageKey).child("message").setValue(sentMessage);
+                    db.child("Sessions").child(sessionKey).child("Chat").child(messageKey).child("sender").setValue(senderName);
                     chatEditText.setText("");
                 }
                 return false;
@@ -302,6 +340,12 @@ public class SessionActivity extends AppCompatActivity {
             tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(Color.parseColor("#2196F3")); //myBlue
         }
         tabHost.getTabWidget().getChildTabViewAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#CDDC39")); //myGreen
+    }
+
+    private void renderChat(DataSnapshot dataSnapshot){
+        for(DataSnapshot data : dataSnapshot.getChildren()){
+            chatTextView.append(senderName+": "+data.getValue().toString()+"\n");
+        }
     }
 }
 
