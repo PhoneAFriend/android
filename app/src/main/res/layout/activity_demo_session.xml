@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_demo_session"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="seniordesign.phoneafriend.session.DemoSessionActivity">
+
+    <TextView
+        android:text="-OR-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/demoSession_orTextView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="18dp"
+        android:textColor="#000000"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint = "Enter Demo Session ID Here"
+        android:id ="@+id/demoSession_editText"
+        android:layout_below="@+id/demoSession_orTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:imeOptions="actionDone"
+        android:inputType="text"/>
+
+
+    <Button
+        android:text="Start a Demo Session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/demoSession_startSessionButton"
+        android:layout_marginBottom="59dp"
+        android:layout_above="@+id/demoSession_orTextView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/custom_button"/>
+</RelativeLayout>

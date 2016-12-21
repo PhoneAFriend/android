@@ -15,6 +15,7 @@ import seniordesign.phoneafriend.main_screen;
 import seniordesign.phoneafriend.posting.NewPostActivity;
 import seniordesign.phoneafriend.posting.PostListActivity;
 import seniordesign.phoneafriend.posting.currentUserPostsList;
+import seniordesign.phoneafriend.session.DemoSessionActivity;
 import seniordesign.phoneafriend.session.SessionActivity;
 import seniordesign.phoneafriend.userSearch.searchUsers;
 
@@ -65,10 +66,7 @@ public class main_selections extends Fragment {
             }
         });
 
-        sessionIntent = new Intent(getActivity() , SessionActivity.class);
-        sessionIntent.putExtra("SENDER_NAME" , ((PhoneAFriend) getActivity().getApplication()).getUsername() );
-        sessionIntent.putExtra("POST_ID" , "Post Title");
-        sessionIntent.putExtra("RECEIVER_NAME" , "Receiving User");
+        sessionIntent = new Intent(getActivity() , DemoSessionActivity.class);
         sessionButton = (Button) view.findViewById(R.id.start_session_button);
         sessionOnClickListener = new View.OnClickListener() {
             @Override

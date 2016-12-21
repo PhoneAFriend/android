@@ -67,7 +67,6 @@ public class SessionActivity extends AppCompatActivity {
     private TextView chatTextView;
     private TextView.OnEditorActionListener chatEditListener;
 
-
     //Need to consider multiple pages later on
     private String strokeKey;
 
@@ -81,7 +80,6 @@ public class SessionActivity extends AppCompatActivity {
 
         postId = getIntent().getStringExtra("POST_ID");
         senderName = getIntent().getStringExtra("SENDER_NAME");
-        recipientName = getIntent().getStringExtra("RECEIVER_NAME");
         postTitleText = getIntent().getStringExtra("POST_TITLE");
         postBodyText = getIntent().getStringExtra("POST_BODY");
         isDemoSession = getIntent().getBooleanExtra("DEMO_SESSION" , true); //Change to false when real sessions working

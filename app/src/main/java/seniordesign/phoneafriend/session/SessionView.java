@@ -19,12 +19,13 @@ import java.util.List;
 
 
 public class SessionView extends View {
-    private Paint paint;
-    private Canvas memcanvas;
-    private Bitmap bitmap;
-    private List<Path> strokes;
-    private Path stroke;
-    private String dbColor;
+    protected Paint paint;
+    protected Canvas memcanvas;
+    protected Bitmap bitmap;
+    protected List<Path> strokes;
+    protected Path stroke;
+    protected String dbColor;
+
 
     public SessionView(Context context, AttributeSet attributeSet){
         super(context , attributeSet);
@@ -39,7 +40,7 @@ public class SessionView extends View {
         memcanvas.drawColor(Color.WHITE);
     }
 
-    private void initPaint() {
+    protected void initPaint() {
         paint = new Paint();
         dbColor = "#000000";
         paint.setDither(true);
